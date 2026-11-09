@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Somnus — школьный исследовательский проект о сне подростка: научная библиотека, фазы сна, дневник, самооценка режима.">
+    <meta name="theme-color" content="#080b12">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Somnus — проект о сне">
+    <meta property="og:description" content="Школьный исследовательский проект о сне подростка: научная библиотека, фазы сна, дневник и результаты опроса 11 класса.">
+    <meta property="og:locale" content="ru_RU">
+    <title>Somnus — проект о сне</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%233b82f6'/></svg>">
+    
+    <!-- Шрифт Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="style.css?v=20261106">
+</head>
+<body>
+    <div class="app-container">
+       <header class="somnus-header" id="somnus-header">
+    <div class="somnus-header__container">
+        <!-- Логотип -->
+        <div class="somnus-header__logo">
+            <a href="#somnus-hero-section" class="somnus-logo-link" aria-label="Somnus — на главную"><svg class="logo-moon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="lm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z" fill="url(#lm)"/></svg><span class="logo-word">Somnus</span></a>
+        </div>
+
+        <!-- Мобильный триггер -->
+        <button class="somnus-burger" id="somnus-mobile-toggle" aria-label="Открыть меню" aria-expanded="false">
+            <span class="somnus-burger__line"></span>
+            <span class="somnus-burger__line"></span>
+            <span class="somnus-burger__line"></span>
+        </button>
+
+        <!-- Навигация -->
+        <nav class="somnus-header__nav" id="somnus-nav">
+            <ul class="somnus-header__list">
+                <li class="somnus-header__item"><a href="#library" class="somnus-header__link">Наука</a></li>
+                <li class="somnus-header__item"><a href="#somnus-sleep-architecture" class="somnus-header__link">Фазы сна</a></li>
+                <li class="somnus-header__item"><a href="#interactive-bedroom" class="somnus-header__link">Интерактив</a></li>
+                <li class="somnus-header__item"><a href="#somnus-diary-module" class="somnus-header__link">Дневник</a></li>
+                <li class="somnus-header__item nav-dropdown">
+                    <a href="#peer-research" class="somnus-header__link dropdown-trigger">
+                        Исследование
+                        <span class="dropdown-arrow">▾</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#peer-research" class="dropdown-item">
+                            <span class="item-title">Опрос старшеклассников</span>
+                            <span class="item-desc">Собственное исследование Somnus</span>
+                        </a>
+                        <a href="#sleep-self-check" class="dropdown-item">
+                            <span class="item-title">Самооценка сна</span>
+                            <span class="item-desc">Короткий информационный тест</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+        <!-- Основной контент -->
+        <main class="site-main">
+           <section class="somnus-hero" id="somnus-hero-section">
+    <div class="somnus-hero__visuals" aria-hidden="true">
+        <div class="somnus-hero__glow somnus-hero__glow--primary"></div>
+        <div class="somnus-hero__glow somnus-hero__glow--secondary"></div>
+        <div class="somnus-hero__stars"></div>
+    </div>
+
+    <div class="somnus-hero__container">
+        <div class="somnus-hero__content">
+            <span class="hero-eyebrow"><i></i>Школьный исследовательский проект</span>
+            <h1 class="somnus-hero__title">
+                Архитектура<br>
+                вашего <span class="somnus-hero__highlight">сна</span>
+            </h1>
+            <p class="somnus-hero__subtitle">Разберите ночь по слоям.</p>
+            <p class="somnus-hero__desc">
+                Исследуйте, как меняются стадии сна, гормональные ритмы и активность мозга — от засыпания до пробуждения. Всё построено на опубликованных исследованиях.
+            </p>
+            <div class="somnus-hero__actions">
+                <a href="#key-facts" class="somnus-hero__btn">
+                    Начать исследование
+                    <svg class="somnus-hero__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+                <a href="#sleep-self-check" class="somnus-hero__btn somnus-hero__btn--ghost">Проверить свой режим</a>
+            </div>
+        </div>
+
+        <div class="hero-card" aria-hidden="true">
+            <div class="hero-card__top"><span class="hero-card__title">Модельная ночь</span><span class="hero-card__time">23:00 → 07:00</span></div>
+            <svg class="hero-card__svg" viewBox="0 0 360 150" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="hcg" x1="0" x2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#e879f9"/></linearGradient>
+                    <filter id="hcf" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+                </defs>
+                <g class="hc-grid"><line x1="0" y1="25" x2="360" y2="25"/><line x1="0" y1="62" x2="360" y2="62"/><line x1="0" y1="99" x2="360" y2="99"/><line x1="0" y1="136" x2="360" y2="136"/></g>
+                <path class="hc-path-glow" filter="url(#hcf)" d="M0 25 H12 V62 H22 V99 H44 V136 H88 V99 H100 V62 H112 V25 H118 V62 H130 V99 H150 V136 H196 V99 H212 V62 H230 V25 H246 V62 H262 V99 H282 V136 H292 V99 H312 V62 H330 V25 H360"/>
+                <path class="hc-path" d="M0 25 H12 V62 H22 V99 H44 V136 H88 V99 H100 V62 H112 V25 H118 V62 H130 V99 H150 V136 H196 V99 H212 V62 H230 V25 H246 V62 H262 V99 H282 V136 H292 V99 H312 V62 H330 V25 H360" pathLength="1"/>
+            </svg>
+            <div class="hero-card__axis"><span>23:00</span><span>01:00</span><span>03:00</span><span>05:00</span><span>07:00</span></div>
+            <ul class="hero-card__stats">
+                <li><b>8–10 ч</b><span>рекомендуется подросткам</span></li>
+                <li><b>4–6</b><span>циклов за ночь</span></li>
+                <li><b>≈ 90 мин</b><span>ориентир длины цикла</span></li>
+            </ul>
+            <p class="hero-card__note">Иллюстрация типичной ночи, не измерение. Источники: AASM, 2016; Carskadon &amp; Dement, 2011.</p>
+        </div>
+    </div>
+</section>
+        
+<section id="key-facts" class="somnus-section keyfacts-section">
+  <div class="somnus-section__header">
+    <span class="somnus-section__eyebrow">С чего начать</span>
+    <h2>Сон подростка: четыре факта</h2>
+    <p>Коротко о том, что известно из исследований. У каждого факта есть источник, а ограничения указаны честно.</p>
+  </div>
+  <div class="kf-grid">
+    <article class="kf-card">
+      <div class="kf-figure">8–10<small>часов</small></div>
+      <h3>Сколько нужно спать</h3>
+      <p>Согласительное заключение Американской академии медицины сна: подросткам 13–18 лет рекомендуется регулярно спать 8–10 часов в сутки.</p>
+      <a class="kf-src" href="https://doi.org/10.5664/jcsm.6288" target="_blank" rel="noopener noreferrer">Paruthi et al., 2016, J Clin Sleep Med</a>
+    </article>
+    <article class="kf-card">
+      <div class="kf-figure kf-figure--icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".35"/><path d="M24 12v12l8 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M40 8l-4 6 7 1" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>Внутренние часы сдвигаются</h3>
+      <p>В подростковом возрасте биологические часы смещаются на более позднее время, поэтому засыпать рано труднее, а вставать в школу тяжелее.</p>
+      <a class="kf-src" href="https://pubmed.ncbi.nlm.nih.gov/17383934/" target="_blank" rel="noopener noreferrer">Crowley et al., 2007, Sleep Medicine</a>
+    </article>
+    <article class="kf-card">
+      <div class="kf-figure kf-figure--icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 38V22M18 38V14M28 38V26M38 38V10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+      <h3>Сон и учёба связаны</h3>
+      <p>Метаанализ показал небольшую, но устойчивую связь продолжительности и качества сна и сонливости с успеваемостью. Это связь, а не доказанная причина.</p>
+      <a class="kf-src" href="https://pubmed.ncbi.nlm.nih.gov/20093054/" target="_blank" rel="noopener noreferrer">Dewald et al., 2010, Sleep Med Rev</a>
+    </article>
+    <article class="kf-card">
+      <div class="kf-figure">8:30<small>и позже</small></div>
+      <h3>Старт уроков</h3>
+      <p>Американская академия педиатрии рекомендует, чтобы средняя и старшая школа начинали занятия не раньше 8:30, чтобы подросткам хватало сна.</p>
+      <a class="kf-src" href="https://doi.org/10.1542/peds.2014-1697" target="_blank" rel="noopener noreferrer">AAP, 2014, Pediatrics</a>
+    </article>
+  </div>
+  <p class="kf-note">Данные из исследований описывают группы людей, а не каждого человека. Если вас беспокоит сон, расскажите об этом взрослому, которому доверяете, или врачу.</p>
+</section>
+<!-- ==========================================================================
+     РАЗДЕЛ: НАУЧНАЯ БИБЛИОТЕКА
+     ========================================================================== -->
+<section id="library" class="science-library">
+    <div class="container">
+        
+        <!-- Заголовок раздела -->
+        <header class="library-header">
+            <span class="somnus-section__eyebrow">Научная библиотека</span>
+            <h2 class="section-title">Физиология процессов</h2>
+            <p class="section-subtitle">Что происходит с мозгом и организмом во время сна — и что об этом говорит наука.</p>
+        </header>
+
+        <!-- Панель управления: Поиск и Фильтры -->
+        <div class="library-controls">  
+            <div class="search-wrapper">
+                <input type="text" id="scienceSearch" placeholder="Поиск исследований (например: мелатонин, REM)..." aria-label="Поиск по библиотеке">
+            </div>
+            
+            <nav class="filter-nav" aria-label="Категории исследований">
+                <button class="filter-btn active" data-filter="featured">Главное</button>
+                <button class="filter-btn" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="brain">Мозг и память</button>
+                <button class="filter-btn" data-filter="circadian">Циркадные ритмы</button>
+                <button class="filter-btn" data-filter="physiology">Физиология</button>
+                <button class="filter-btn" data-filter="factors">Факторы сна</button>
+                <button class="filter-btn" data-filter="teens">Подростковый сон</button>
+            </nav>
+        </div>
+        <!-- Панель управления библиотекой -->
+<div class="library-header-actions">
+    <p class="library-count" id="library-count" aria-live="polite"></p>
+    <button id="toggle-grid-btn" class="toggle-collapse-btn">Свернуть исследования</button>
+</div>
+
+
+        <!-- Контейнер для рендера карточек -->
+        <div id="science-grid" class="science-grid" aria-live="polite">
+            <!-- Карточки будут динамически генерироваться через JavaScript -->
+        </div>
+        
+        <!-- Состояние отсутствия результатов -->
+        <div id="science-empty" class="science-empty hidden">
+            <p>По вашему запросу исследований не найдено. Попробуйте изменить параметры поиска.</p>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для детального просмотра исследования -->
+    <div id="science-modal" class="science-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-backdrop" tabindex="-1" data-close-modal></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Закрыть модальное окно" data-close-modal>&times;</button>
+            
+            <div class="modal-scroll-area">
+                <div class="modal-header">
+                    <span id="modal-journal" class="modal-meta"></span>
+                    <h3 id="modal-title" class="modal-title"></h3>
+                    <p id="modal-authors" class="modal-authors"></p>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h4>Что изучали</h4>
+                        <p id="modal-design"></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Что обнаружили</h4>
+                        <p id="modal-findings"></p>
+                    </div>
+                    <div class="modal-section">
+                        <h4>Почему это важно</h4>
+                        <p id="modal-importance"></p>
+                    </div>
+                    <div class="modal-section limitations-section" id="modal-limitations-container">
+                        <h4>Ограничения</h4>
+                        <p id="modal-limitations"></p>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" id="modal-source-link" class="btn-primary" target="_blank" rel="noopener noreferrer">Открыть оригинал исследования (англ.)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========================================================================== -->
+ <section class="somnus-sleep-architecture" id="somnus-sleep-architecture">
+    <div class="somnus-sleep-architecture__inner">
+        
+        <header class="somnus-sleep-architecture__header">
+            <span class="somnus-section__eyebrow">Фазы сна</span>
+            <h2 class="somnus-sleep-architecture__title">Архитектура циклов сна</h2>
+            <p class="somnus-sleep-architecture__intro">
+                Сон — это не однородное состояние. В течение ночи мозг проходит через повторяющиеся стадии NREM и REM. Циклы имеют переменную продолжительность; часто приводится ориентир около 90 минут, но фактическая длительность меняется, а соотношение стадий смещается от начала ночи к утру.
+            </p>
+        </header>
+
+        <div class="somnus-sleep-architecture__tabs-wrapper">
+            <nav class="somnus-sleep-architecture__tabs" role="tablist" aria-label="Изучение стадий сна">
+                <button class="somnus-sleep-architecture__tab active" data-phase="all" role="tab" aria-selected="true">Вся ночь</button>
+                <button class="somnus-sleep-architecture__tab" data-phase="n1" role="tab" aria-selected="false"><i class="sa-dot sa-dot--n1"></i>N1</button>
+                <button class="somnus-sleep-architecture__tab" data-phase="n2" role="tab" aria-selected="false"><i class="sa-dot sa-dot--n2"></i>N2</button>
+                <button class="somnus-sleep-architecture__tab" data-phase="n3" role="tab" aria-selected="false"><i class="sa-dot sa-dot--n3"></i>N3</button>
+                <button class="somnus-sleep-architecture__tab" data-phase="rem" role="tab" aria-selected="false"><i class="sa-dot sa-dot--rem"></i>REM</button>
+            </nav>
+        </div>
+
+        <div class="somnus-sleep-architecture__chart-container">
+            <div class="sa-chart" id="saChart" role="img" aria-label="Гипнограмма модельной ночи с 23:00 до 07:00: стадии бодрствования, N1, N2, N3 и REM в пяти циклах"></div>
+
+            <div class="somnus-sleep-architecture__controls">
+                <div class="somnus-sleep-architecture__time-header">
+                    <span class="somnus-sleep-architecture__time-label">Время модельной ночи</span>
+                    <span class="somnus-sleep-architecture__time-value" id="somnusTimeValue">23:00</span>
+                </div>
+                <div class="somnus-sleep-architecture__range-wrapper">
+                    <input type="range" id="somnusTimeScrubber" min="0" max="480" value="0" class="somnus-sleep-architecture__range" aria-label="Перемещение по времени модельной ночи">
+                </div>
+            </div>
+        </div>
+
+        <div class="somnus-sleep-architecture__info-card" id="somnusInfoCard" aria-live="polite">
+            <div class="somnus-sleep-architecture__card-header">
+                <span class="somnus-sleep-architecture__card-badge" id="somnusCycleBadge">Исследование</span>
+                <h3 class="somnus-sleep-architecture__card-title" id="somnusCardTitle">Типичная архитектура сна</h3>
+            </div>
+            <p class="somnus-sleep-architecture__card-text" id="somnusCardText">
+                Перемещайте ползунок времени, чтобы исследовать иллюстрирующую модель гипнограммы, или выберите конкретную стадию для изучения ее физиологических особенностей.
+            </p>
+            <div class="somnus-sleep-architecture__card-disclaimer">
+                Показана типичная модель архитектуры сна, а не измерение фактической стадии сна конкретного человека.
+            </div>
+        </div>
+
+        <p class="sa-ref">Ориентиры для здорового взрослого (доля ночи): N1 около 2–5 %, N2 около 45–55 %, N3 около 13–23 %, REM около 20–25 %. У подростков доля глубокого сна выше, а реальные значения у каждого человека свои.</p>
+
+        <details class="somnus-sleep-architecture__science">
+            <summary class="somnus-sleep-architecture__science-summary">Научная база</summary>
+            <ul class="somnus-sleep-architecture__science-list">
+                <li>Iber, C., Ancoli-Israel, S., Chesson, A., &amp; Quan, S. F. (2007). The AASM Manual for the Scoring of Sleep and Associated Events: Rules, Terminology and Technical Specifications. American Academy of Sleep Medicine. (руководство)</li>
+                <li>Carskadon, M. A., &amp; Dement, W. C. (2011). Normal Human Sleep: An Overview. In Principles and Practice of Sleep Medicine (5th ed.). Elsevier. (глава книги)</li>
+                <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3768102/" target="_blank" rel="noopener noreferrer">Rasch, B., &amp; Born, J. (2013). About sleep's role in memory. Physiological Reviews, 93(2), 681–766.</a></li>
+            </ul>
+        </details>
+
+    </div>
+</section>
+
+            <!-- Секция: Интерактивная спальня -->
+            <section id="interactive-bedroom" class="bedroom-section">
+  <div class="bedroom-header">
+    <span class="somnus-section__eyebrow">Среда сна</span>
+    <h2>Интерактивная спальня</h2>
+    <p>Исследуйте среду, в которой вы спите.</p>
+  </div>
+
+  <div class="bedroom-visual-container">
+    <img src="./interactive-bedroom.webp" alt="Тёмная спальня с кроватью, лампой, смартфоном на тумбочке, кондиционером и окном" class="bedroom-image" width="1536" height="876" decoding="async">
+    
+    <!-- Hotspots -->
+    <button class="hotspot light" data-target="light" aria-label="Свет">
+      <span class="hotspot-ring"></span>
+      <span class="hotspot-label">Свет</span>
+    </button>
+    <button class="hotspot climate" data-target="climate" aria-label="Климат">
+      <span class="hotspot-ring"></span>
+      <span class="hotspot-label">Климат</span>
+    </button>
+    <button class="hotspot smartphone" data-target="smartphone" aria-label="Смартфон">
+      <span class="hotspot-ring"></span>
+      <span class="hotspot-label">Смартфон</span>
+    </button>
+    <button class="hotspot bed" data-target="bed" aria-label="Спальное место">
+      <span class="hotspot-ring"></span>
+      <span class="hotspot-label">Спальное место</span>
+    </button>
+    <button class="hotspot acoustics" data-target="acoustics" aria-label="Акустика">
+      <span class="hotspot-ring"></span>
+      <span class="hotspot-label">Акустика</span>
+    </button>
+  </div>
+
+  <div class="bedroom-info-panel" id="bedroom-info" aria-live="polite">
+    <div class="info-content active">
+      <div class="info-category">ИССЛЕДОВАНИЕ</div>
+      <h3>Выберите объект</h3>
+      <p class="info-desc">Нажмите на интерактивную точку на фотографии, чтобы узнать, как этот элемент среды влияет на физиологию вашего сна.</p>
+    </div>
+  </div>
+</section>
+            <!-- Секция: Биохимия сна -->
+           <section id="biochemistry-section" class="somnus-bio-section">
+  <div class="bio-header">
+    <span class="somnus-section__eyebrow">Циркадные ритмы</span>
+    <h2>Биохимия суток</h2>
+    <p>Перемещайте ползунок времени, чтобы отследить циркадные колебания.</p>
+    <div class="bio-disclaimer">
+      Схематическая модель суточных ритмов. Значения нормализованы для визуализации и не представляют измеренную концентрацию гормонов.
+    </div>
+  </div>
+
+  <div class="bio-interactive-core">
+    <div class="bio-toolbar">
+      <div class="bio-mode" role="group" aria-label="Для кого показана модель">
+        <button type="button" class="bio-mode-btn is-active" data-mode="adult" aria-pressed="true">Взрослый</button>
+        <button type="button" class="bio-mode-btn" data-mode="teen" aria-pressed="false">Подросток</button>
+      </div>
+      <ul class="bio-legend" aria-label="Обозначения">
+        <li><span class="bio-legend-line bio-legend-line--mel"></span>Мелатонин</li>
+        <li><span class="bio-legend-line bio-legend-line--cor"></span>Кортизол</li>
+        <li><span class="bio-legend-box"></span>Окно сна 23:00–07:00</li>
+      </ul>
+    </div>
+
+    <div class="bio-chart-wrapper">
+      <div id="bio-chart" class="bio-chart" role="img" aria-label="Схематические суточные кривые мелатонина и кортизола с 06:00 до 06:00"></div>
+      <input type="range" id="bio-time-slider" class="bio-slider" min="0" max="100" value="0" step="0.1" aria-label="Шкала времени суток">
+    </div>
+    <div class="bio-clock" aria-live="off"><span class="bio-clock-label">Время суток</span> <span id="bio-current-time-label" class="bio-clock-value">06:00</span></div>
+  </div>
+
+  <!-- Информационная панель -->
+  <div class="bio-info-panel">
+    <div class="bio-text-content">
+      <div id="bio-category" class="bio-category-label">УТРЕННЯЯ АКТИВАЦИЯ</div>
+      <h3 id="bio-title">Кортизоловый ответ и запуск дневного режима</h3>
+      <p id="bio-description">Кортизол находится вблизи своего суточного утреннего максимума, а мелатонин снижается к дневным значениям. Организм переходит из биологической ночи к активной фазе. Утренний свет является важнейшим сигналом для синхронизации циркадных часов.</p>
+    </div>
+    
+    <div class="bio-status-indicators">
+      <div class="status-item">
+        <div class="status-color melatonin-color"></div>
+        <div class="status-info">
+          <span class="status-name">Мелатонин</span>
+          <span id="status-melatonin" class="status-value">снижается</span>
+        </div>
+      </div>
+      <div class="status-item">
+        <div class="status-color cortisol-color"></div>
+        <div class="status-info">
+          <span class="status-name">Кортизол</span>
+          <span id="status-cortisol" class="status-value">высокий</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <p class="bio-teen-note" id="bio-teen-note" hidden>В режиме «Подросток» подъём мелатонина сдвинут примерно на 1,5 часа позже: в период полового созревания внутренние часы смещаются, и ложиться рано становится труднее. Это схематическая иллюстрация, а не измерение.</p>
+
+  <div class="bio-footer-note">
+    <strong>Важно:</strong> циркадные ритмы индивидуальны. Время подъёма мелатонина, кортизола, сна и пиковой бодрости зависит от режима, освещения, возраста и хронотипа. Циркадные часы задают время биологической ночи, а структура самого сна меняется уже внутри неё: глубокий N3 обычно преобладает раньше, REM — ближе к утру.
+  </div>
+
+  <details class="bio-science">
+    <summary>Научная база</summary>
+    <ul>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/17383934/" target="_blank" rel="noopener noreferrer">Crowley S. J., Acebo C., Carskadon M. A. (2007). Sleep, circadian rhythms, and delayed phase in adolescence. Sleep Medicine, 8(6), 602–612.</a></li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3130594/" target="_blank" rel="noopener noreferrer">Carskadon M. A. (2011). Sleep in adolescents: the perfect storm. Pediatric Clinics of North America, 58(3), 637–647.</a></li>
+      <li><a href="https://academic.oup.com/jcem/article/96/3/E463/2833657" target="_blank" rel="noopener noreferrer">Gooley J. J. et al. (2011). Exposure to room light before bedtime suppresses melatonin onset and shortens melatonin duration in humans. J. Clin. Endocrinol. Metab., 96(3), E463–E472.</a></li>
+    </ul>
+  </details>
+</section>
+            <!-- Секция: Тренажер дыхания -->
+            <section id="neuro-breathing-module" class="somnus-breathing-container">
+  <div class="breathing-header">
+    <span class="somnus-section__eyebrow">Практика</span>
+    <h2>Дыхание перед сном</h2>
+    <p>Медленное дыхание — около шести циклов в минуту — это простая практика, которая в исследованиях связана с субъективным расслаблением и ростом вариабельности сердечного ритма. Это не лечение и не гарантия быстрого засыпания: данных именно о сне пока немного.</p>
+  </div>
+
+  <div class="br-layout">
+    <div class="br-stage" id="br-stage">
+      <div class="br-visual" id="br-visual">
+        <svg class="br-ring" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="br-ring-track" cx="100" cy="100" r="94"></circle>
+          <circle class="br-ring-progress" id="br-ring-progress" cx="100" cy="100" r="94" transform="rotate(-90 100 100)"></circle>
+        </svg>
+        <div class="br-orb" id="br-orb"></div>
+        <div class="br-label">
+          <span class="br-phase" id="br-phase">Готовы?</span>
+          <span class="br-count" id="br-count" aria-hidden="true"></span>
+        </div>
+      </div>
+      <p class="br-hint" id="br-hint" aria-live="polite">Сядьте или лягте удобно. Дышите носом, плавно и без усилия.</p>
+    </div>
+
+    <div class="br-panel">
+      <div class="br-group">
+        <span class="br-group-title">Ритм (вдох · выдох)</span>
+        <div class="br-seg" id="br-patterns" role="group" aria-label="Ритм дыхания">
+          <button type="button" class="br-seg-btn" data-in="3" data-out="4" aria-pressed="false">3 · 4 <small>мягкий</small></button>
+          <button type="button" class="br-seg-btn is-active" data-in="4" data-out="6" aria-pressed="true">4 · 6 <small>удлинённый выдох</small></button>
+          <button type="button" class="br-seg-btn" data-in="5" data-out="5" aria-pressed="false">5 · 5 <small>ровный</small></button>
+        </div>
+      </div>
+
+      <div class="br-group">
+        <span class="br-group-title">Длительность</span>
+        <div class="br-seg" id="br-durations" role="group" aria-label="Длительность практики">
+          <button type="button" class="br-seg-btn" data-min="2" aria-pressed="false">2 мин</button>
+          <button type="button" class="br-seg-btn is-active" data-min="3" aria-pressed="true">3 мин</button>
+          <button type="button" class="br-seg-btn" data-min="5" aria-pressed="false">5 мин</button>
+        </div>
+      </div>
+
+      <div class="br-actions">
+        <button type="button" class="br-btn br-btn--primary" id="br-start">Начать</button>
+        <button type="button" class="br-btn" id="br-pause" hidden>Пауза</button>
+        <button type="button" class="br-btn" id="br-stop" hidden>Закончить</button>
+      </div>
+
+      <p class="br-done" id="br-done" hidden></p>
+
+      <div class="breathing-safety-card">
+        <span class="breathing-safety-label">Безопасность</span>
+        <p>Если появились головокружение, одышка, боль или тревога, остановитесь и дышите как обычно. Не задерживайте дыхание. Практика необязательна и подходит не всем; при заболеваниях сердца и лёгких сначала посоветуйтесь с врачом.</p>
+      </div>
+    </div>
+  </div>
+
+  <details class="bio-science br-science">
+    <summary>Что известно из исследований</summary>
+    <ul>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6137615/" target="_blank" rel="noopener noreferrer">Zaccaro A. et al. (2018). How breath-control can change your life: a systematic review on psycho-physiological correlates of slow breathing. Frontiers in Human Neuroscience, 12, 353.</a> Обзор: медленное дыхание связано с ростом вариабельности сердечного ритма и субъективным расслаблением.</li>
+      <li><a href="https://eprints.bournemouth.ac.uk/38169/" target="_blank" rel="noopener noreferrer">Laborde S. et al. (2022). Effects of voluntary slow breathing on heart rate and heart rate variability: a systematic review and a meta-analysis. Neuroscience &amp; Biobehavioral Reviews.</a> Метаанализ: эффект зависит от ритма и техники.</li>
+      <li><a href="https://hub.tmu.edu.tw/en/publications/efficacy-of-paced-breathing-for-insomnia-enhances-vagal-activity-/" target="_blank" rel="noopener noreferrer">Tsai H.-J. et al. (2015). Efficacy of paced breathing for insomnia: enhances vagal activity and improves sleep quality. Psychophysiology.</a> Небольшое исследование у взрослых с бессонницей; результаты предварительные.</li>
+    </ul>
+  </details>
+</section>
+           <section id="somnus-diary-module" class="somnus-section">
+  <div class="diary-header">
+    <span class="somnus-section__eyebrow">Наблюдение</span>
+    <h2>Дневник сна</h2>
+    <p>Наблюдайте за своим сном и находите закономерности.</p>
+  </div>
+
+  <div class="diary-grid">
+    <!-- ЛЕВАЯ КОЛОНКА: ФОРМА -->
+    <div class="diary-form-card glass-panel">
+      <form id="diary-entry-form">
+        
+        <div class="diary-time-group">
+          <div class="diary-input-block">
+            <label for="diary-bed-time">Лёг(ла) в кровать</label>
+            <input type="time" id="diary-bed-time" required>
+          </div>
+          <div class="diary-input-block">
+            <label for="diary-sleep-time">Примерное засыпание</label>
+            <input type="time" id="diary-sleep-time" required>
+          </div>
+        </div>
+
+        <div class="diary-time-group">
+          <div class="diary-input-block">
+            <label for="diary-wake-time">Пробуждение</label>
+            <input type="time" id="diary-wake-time" required>
+          </div>
+          <div class="diary-input-block">
+            <label for="diary-out-time">Подъём с кровати</label>
+            <input type="time" id="diary-out-time" required>
+          </div>
+        </div>
+
+        <div class="diary-rating-group">
+          <label>Качество сна</label>
+          <div class="diary-radio-row">
+            <input type="radio" name="diary-quality" value="1" id="q1"><label for="q1">1</label>
+            <input type="radio" name="diary-quality" value="2" id="q2"><label for="q2">2</label>
+            <input type="radio" name="diary-quality" value="3" id="q3" checked><label for="q3">3</label>
+            <input type="radio" name="diary-quality" value="4" id="q4"><label for="q4">4</label>
+            <input type="radio" name="diary-quality" value="5" id="q5"><label for="q5">5</label>
+          </div>
+        </div>
+
+        <div class="diary-rating-group">
+          <label>Самочувствие утром</label>
+          <div class="diary-radio-row">
+            <input type="radio" name="diary-feeling" value="1" id="f1"><label for="f1">1</label>
+            <input type="radio" name="diary-feeling" value="2" id="f2"><label for="f2">2</label>
+            <input type="radio" name="diary-feeling" value="3" id="f3" checked><label for="f3">3</label>
+            <input type="radio" name="diary-feeling" value="4" id="f4"><label for="f4">4</label>
+            <input type="radio" name="diary-feeling" value="5" id="f5"><label for="f5">5</label>
+          </div>
+        </div>
+
+        <div class="diary-input-block">
+          <label for="diary-screen">Экран за час до сна?</label>
+          <select id="diary-screen">
+            <option value="yes">Да</option>
+            <option value="no">Нет</option>
+          </select>
+        </div>
+
+        <div class="diary-input-block">
+          <label for="diary-note">Заметка (опционально)</label>
+          <textarea id="diary-note" rows="2" placeholder="Факторы, повлиявшие на сон..."></textarea>
+          <p class="diary-storage-hint">Записи видны только в этом браузере на этом устройстве. На другом устройстве или после очистки данных браузера они не появятся.</p>
+        </div>
+
+        <div id="diary-error-msg" class="diary-error hidden"></div>
+        <button type="submit" class="diary-submit-btn">Сохранить запись</button>
+      </form>
+      <div class="diary-local-notice">
+        Локальное хранение. Данные не передаются на сервер.
+      </div>
+    </div>
+
+    <!-- ПРАВАЯ КОЛОНКА: АНАЛИТИКА И ИСТОРИЯ -->
+    <div class="diary-dashboard">
+      
+      <!-- Карточка последнего сна (скрыта, если нет данных) -->
+      <div id="diary-latest-stats" class="diary-stats-card glass-panel hidden">
+        <div class="stats-row">
+          <div class="stat-box">
+            <span class="stat-label">Продолжительность</span>
+            <strong id="stat-duration" class="stat-value">--</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Время засыпания</span>
+            <strong id="stat-latency" class="stat-value">--</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Качество</span>
+            <strong id="stat-quality" class="stat-value">--</strong>
+          </div>
+        </div>
+        <p class="stats-disclaimer">Продолжительность сна рассчитана на основе введённых вами времён и не является медицинской оценкой качества сна. Для подростков обычно рекомендуется 8–10 часов сна в сутки. Не оценивайте свой сон по ощущениям одной ночи. Наблюдайте закономерности.</p>
+      </div>
+
+      <!-- График 7 дней -->
+      <div class="diary-chart-container glass-panel">
+        <h3 class="diary-subheading">Последние 7 дней</h3>
+        <div id="diary-chart" class="diary-bar-chart">
+          <!-- Бары генерируются через JS -->
+          <div class="diary-empty-state">Нет данных для отображения</div>
+        </div>
+      </div>
+
+      <!-- История -->
+      <div class="diary-history-container glass-panel">
+        <div class="history-header-row">
+          <h3 class="diary-subheading">История</h3>
+          <button id="diary-clear-all" class="diary-text-btn">Очистить всё</button>
+        </div>
+        <ul id="diary-history-list" class="diary-history-list">
+          <!-- Элементы генерируются через JS -->
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="peer-research" class="somnus-section peer-research-section">
+  <div class="somnus-section__header">
+    <span class="somnus-section__eyebrow">Собственное исследование</span>
+    <h2>Опрос старшеклассников</h2>
+    <p>Кроме обзора научных публикаций, в рамках проекта Somnus проведён собственный анонимный опрос старшеклассников об их режиме сна. Ниже — его реальные результаты.</p>
+  </div>
+
+  <div class="project-aim glass-panel">
+    <div class="pa-col"><h3>Цель</h3><p>Исследование особенностей сна старшеклассников по данным научной литературы и анонимного опроса и создание интерактивного научно-просветительского сайта Somnus.</p></div>
+    <div class="pa-col"><h3>Задачи</h3><ul><li>изучить научные рекомендации и исследования о сне подростков;</li><li>составить анонимную анкету;</li><li>провести опрос среди старшеклассников;</li><li>обработать ответы и сравнить группы участников;</li><li>проверить гипотезу;</li><li>разместить результаты на сайте и подготовить памятку.</li></ul></div>
+    <div class="pa-col"><h3>Гипотеза</h3><p>У старшеклассников, которые в учебные дни спят меньше 8 часов или ложатся в разное время, чаще бывают сонливость, усталость и трудности с концентрацией. Опрос показывает связи между показателями, но не доказывает причин.</p><p class="pa-result"><b>Итог:</b> проверена частично, в нашей выборке направление связи совпало с гипотезой.</p></div>
+  </div>
+
+  <div class="peer-research-card glass-panel">
+    <span class="research-status-badge"><span class="status-dot"></span>9 ноября 2026 · 11 класс · 16 участников</span>
+    <p class="research-status-text">Опрошены 16 учеников 11 класса, все ответы учтены без изменений. Выборка небольшая, поэтому проценты стоит читать как тенденции: один человек — это около 6%. Результаты относятся только к опрошенным.</p>
+
+    <ol class="research-pipeline"><li class="pipeline-step"><span class="step-index">01</span><span class="step-label">Сбор данных</span></li><li class="pipeline-step"><span class="step-index">02</span><span class="step-label">Обработка результатов</span></li><li class="pipeline-step is-active"><span class="step-index">03</span><span class="step-label">Выводы и публикация</span></li></ol>
+
+    <ul class="method-facts">
+      <li><b>Анонимно</b><span>без имён и названия школы в ответах</span></li>
+      <li><b>12 вопросов</b><span>онлайн-форма, 3–4 минуты</span></li>
+      <li><b>16 ответов</b><span>11 класс, участие добровольное</span></li>
+    </ul>
+  </div>
+
+  <div class="peer-map glass-panel">
+    <h3>Что проверяем и с чем сравним</h3>
+    <p class="peer-map-sub">Каждый блок анкеты соотносится с опубликованными исследованиями. В столбце «Результат» — ответы опрошенных (n = 16).</p>
+    <div class="peer-table" role="table" aria-label="Соответствие вопросов анкеты научным данным">
+      <div class="peer-row peer-row--head" role="row"><span role="columnheader">Тема</span><span role="columnheader">Что говорит наука</span><span role="columnheader">Вопросы анкеты</span><span role="columnheader">Результат</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Продолжительность сна</b></span><span role="cell" data-label="Наука">Подросткам рекомендуется 8–10 часов (AASM, 2016)</span><span role="cell" data-label="Вопросы">2</span><span role="cell" data-label="Результат" class="peer-result">Менее 7 ч спят 12 из 16 (75%); нормы 8–10 ч не достигает никто</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Режим и «социальный джетлаг»</b></span><span role="cell" data-label="Наука">Разница между будними и выходными связана с расхождением внутренних часов и расписания (Wittmann et al., 2006)</span><span role="cell" data-label="Вопросы">3, 10</span><span role="cell" data-label="Результат" class="peer-result">Режим меняется у 14 из 16 (88%); в выходные дольше на 2+ ч спят 9 (56%)</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Засыпание и ночные пробуждения</b></span><span role="cell" data-label="Наука">Критерии качественного сна NSF: засыпание не дольше 30 минут, ночью не более одного пробуждения (Ohayon et al., 2017)</span><span role="cell" data-label="Вопросы">4, 5</span><span role="cell" data-label="Результат" class="peer-result">Дольше 15 мин засыпают 13 из 16 (81%); часто просыпаются 2 (13%)</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Бодрость и сонливость днём</b></span><span role="cell" data-label="Наука">Сонливость и качество сна связаны с успеваемостью (Dewald et al., 2010)</span><span role="cell" data-label="Вопросы">6, 7, 8</span><span role="cell" data-label="Результат" class="peer-result">Сонливость «часто» у 11 из 16 (69%); трудно сосредоточиться «часто» или «иногда» у 12 (75%)</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Экраны перед сном</b></span><span role="cell" data-label="Наука">Вечернее использование светящихся экранов связано с более поздним сном (Chang et al., 2015)</span><span role="cell" data-label="Вопросы">9</span><span role="cell" data-label="Результат" class="peer-result">Почти каждый день — 15 из 16 (94%)</span></div>
+      <div class="peer-row" role="row"><span role="cell" data-label="Тема"><b>Что мешает и что поможет</b></span><span role="cell" data-label="Наука">Собственные наблюдения проекта, прямых аналогов нет</span><span role="cell" data-label="Вопросы">11, 12</span><span role="cell" data-label="Результат" class="peer-result">Мешают: учёба (62%), ранний подъём (50%), телефон (38%). Помогут: лечь раньше (50%)</span></div>
+    </div>
+    <p class="peer-caveat">Опрос показывает картину в одной группе школьников. Он не заменяет клинических исследований, и выводы описывают только его участников.</p>
+  </div>
+  <div class="survey-results">
+    <h3>Результаты опроса 11 класса <small>n = 16</small></h3>
+    <div class="rg-grid">
+<div class="rg glass-panel"><h4>Сон в учебные дни</h4><div class="rb"><span class="rb-l">менее 6 ч</span><span class="rb-t"><i class="" style="width:37.5%"></i></span><span class="rb-n">6 · 38%</span></div><div class="rb"><span class="rb-l">6–7 ч</span><span class="rb-t"><i class="" style="width:37.5%"></i></span><span class="rb-n">6 · 38%</span></div><div class="rb"><span class="rb-l">7–8 ч</span><span class="rb-t"><i class="" style="width:25.0%"></i></span><span class="rb-n">4 · 25%</span></div><div class="rb"><span class="rb-l">8–10 ч (норма)</span><span class="rb-t"><i class="" style="width:0.0%"></i></span><span class="rb-n">0 · 0%</span></div><div class="rb"><span class="rb-l">более 10 ч</span><span class="rb-t"><i class="" style="width:0.0%"></i></span><span class="rb-n">0 · 0%</span></div></div><div class="rg glass-panel"><h4>В выходные сплю дольше</h4><div class="rb"><span class="rb-l">так же</span><span class="rb-t"><i class="v" style="width:0.0%"></i></span><span class="rb-n">0 · 0%</span></div><div class="rb"><span class="rb-l">на 1–2 ч</span><span class="rb-t"><i class="v" style="width:43.8%"></i></span><span class="rb-n">7 · 44%</span></div><div class="rb"><span class="rb-l">более чем на 2 ч</span><span class="rb-t"><i class="v" style="width:56.2%"></i></span><span class="rb-n">9 · 56%</span></div></div><div class="rg glass-panel"><h4>Сонливость днём</h4><div class="rb"><span class="rb-l">редко или никогда</span><span class="rb-t"><i class="" style="width:0.0%"></i></span><span class="rb-n">0 · 0%</span></div><div class="rb"><span class="rb-l">иногда</span><span class="rb-t"><i class="" style="width:31.2%"></i></span><span class="rb-n">5 · 31%</span></div><div class="rb"><span class="rb-l">часто</span><span class="rb-t"><i class="" style="width:68.8%"></i></span><span class="rb-n">11 · 69%</span></div></div><div class="rg glass-panel"><h4>Трудно сосредоточиться на уроках</h4><div class="rb"><span class="rb-l">редко или никогда</span><span class="rb-t"><i class="" style="width:25.0%"></i></span><span class="rb-n">4 · 25%</span></div><div class="rb"><span class="rb-l">иногда</span><span class="rb-t"><i class="" style="width:43.8%"></i></span><span class="rb-n">7 · 44%</span></div><div class="rb"><span class="rb-l">часто</span><span class="rb-t"><i class="" style="width:31.2%"></i></span><span class="rb-n">5 · 31%</span></div></div><div class="rg glass-panel"><h4>Что мешает спать (до 2 ответов)</h4><div class="rb"><span class="rb-l">учёба и домашние задания</span><span class="rb-t"><i class="v" style="width:62.5%"></i></span><span class="rb-n">10 · 62%</span></div><div class="rb"><span class="rb-l">ранний подъём</span><span class="rb-t"><i class="v" style="width:50.0%"></i></span><span class="rb-n">8 · 50%</span></div><div class="rb"><span class="rb-l">телефон, соцсети, игры</span><span class="rb-t"><i class="v" style="width:37.5%"></i></span><span class="rb-n">6 · 38%</span></div><div class="rb"><span class="rb-l">стресс, переживания</span><span class="rb-t"><i class="v" style="width:25.0%"></i></span><span class="rb-n">4 · 25%</span></div><div class="rb"><span class="rb-l">поздние дела вне школы</span><span class="rb-t"><i class="v" style="width:6.2%"></i></span><span class="rb-n">1 · 6%</span></div><div class="rb"><span class="rb-l">мне хватает сна</span><span class="rb-t"><i class="v" style="width:6.2%"></i></span><span class="rb-n">1 · 6%</span></div></div><div class="rg glass-panel"><h4>Что попробуют (до 2 ответов)</h4><div class="rb"><span class="rb-l">ложиться раньше</span><span class="rb-t"><i class="v" style="width:50.0%"></i></span><span class="rb-n">8 · 50%</span></div><div class="rb"><span class="rb-l">тише, темнее, прохладнее</span><span class="rb-t"><i class="v" style="width:37.5%"></i></span><span class="rb-n">6 · 38%</span></div><div class="rb"><span class="rb-l">убирать телефон заранее</span><span class="rb-t"><i class="v" style="width:31.2%"></i></span><span class="rb-n">5 · 31%</span></div><div class="rb"><span class="rb-l">пока не знаю</span><span class="rb-t"><i class="v" style="width:31.2%"></i></span><span class="rb-n">5 · 31%</span></div><div class="rb"><span class="rb-l">вставать в одно время</span><span class="rb-t"><i class="v" style="width:18.8%"></i></span><span class="rb-n">3 · 19%</span></div><div class="rb"><span class="rb-l">меньше кофеина вечером</span><span class="rb-t"><i class="v" style="width:6.2%"></i></span><span class="rb-n">1 · 6%</span></div></div>
+    </div>
+    <div class="peer-map glass-panel survey-conclusions">
+      <h3>Что показал опрос</h3>
+      <ul>
+        <li>Недосып выражен: три четверти опрошенных спят меньше 7 часов, нормы 8–10 часов не достигает никто.</li>
+        <li>Режим нестабилен, а в выходные ученики «отсыпаются» (у 56% разница больше 2 часов).</li>
+        <li>Среди спящих меньше 7 часов (n = 12) сонливость «часто» у 11 (92%), среди спящих 7–8 часов (n = 4) — ни у кого. Направление связи совпадает с гипотезой, но группы очень малы.</li>
+        <li>Экраны перед сном используют почти все (94%), поэтому сравнить засыпание с экраном и без него нельзя.</li>
+        <li>Сами ученики видят выход в более раннем отбое и телефоне вне кровати.</li>
+      </ul>
+      <p class="peer-caveat">Ограничения: 16 человек, один класс, самооценка. Это тенденции, а не доказательство причинной связи.</p>
+    </div>
+  </div>
+
+</section>
+
+<section id="sleep-self-check" class="somnus-section self-check-section">
+  <div class="somnus-section__header">
+    <span class="somnus-section__eyebrow">Интерактивный инструмент</span>
+    <h2>Самооценка сна</h2>
+    <p>Шесть коротких вопросов о вашем режиме. Это информационная самооценка, а не медицинская диагностика.</p>
+  </div>
+
+  <div class="self-check-layout">
+  <div class="self-check-card glass-panel">
+    <div id="self-check-quiz">
+      <div class="self-check-progress"><div class="self-check-progress-fill" id="self-check-progress-fill"></div></div>
+      <div id="self-check-question-wrap"></div>
+    </div>
+
+    <div id="self-check-result" class="self-check-result hidden">
+      <span class="somnus-section__eyebrow">Результат</span>
+      <h3 id="self-check-result-title"></h3>
+      <p id="self-check-result-text"></p>
+      <ul id="self-check-result-tips" class="self-check-tips"></ul>
+      <p class="self-check-disclaimer">Это информационная самооценка, а не медицинская диагностика. Если вас беспокоит собственный сон или самочувствие — стоит рассказать об этом взрослому, которому вы доверяете, или врачу.</p>
+      <div class="self-check-actions">
+        <button id="self-check-restart" class="somnus-text-btn" type="button">Пройти заново</button>
+        <a href="somnus-pamyatka.pdf" download class="btn-primary">Скачать памятку (PDF)</a>
+      </div>
+    </div>
+  </div>
+  <aside class="self-check-aside glass-panel" aria-label="О тесте">
+    <h3>О тесте</h3>
+    <ul>
+      <li><b>6 вопросов</b><span>около минуты</span></li>
+      <li><b>Без регистрации</b><span>ответы нигде не сохраняются</span></li>
+      <li><b>Не диагноз</b><span>это ориентир для размышления о режиме</span></li>
+    </ul>
+    <p>В конце вы получите советы и сможете скачать памятку для печати.</p>
+  </aside>
+</div>
+</section>
+            
+        </main>
+
+        <!-- Подвал сайта -->
+        <footer class="site-footer">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo"><span class="somnus-logo-link"><svg class="logo-moon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="lm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z" fill="url(#lm2)"/></svg><span class="logo-word">Somnus</span></span></div>
+                    <p class="footer-desc">Школьный исследовательский проект о сне подростка: научная библиотека, интерактивные модели, дневник и самооценка. Материалы образовательные и не заменяют консультацию врача.</p>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-title">Навигация</h4>
+                    <a href="#key-facts" class="footer-link">Главное о сне</a>
+                    <a href="#library" class="footer-link">Наука</a>
+                    <a href="#somnus-sleep-architecture" class="footer-link">Фазы сна</a>
+                    <a href="#interactive-bedroom" class="footer-link">Интерактивная спальня</a>
+                    <a href="#somnus-diary-module" class="footer-link">Дневник</a>
+                    <a href="#peer-research" class="footer-link">Опрос старшеклассников</a>
+                    <a href="#sleep-self-check" class="footer-link">Самооценка сна</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Somnus. Архитектура вашего сна.</p>
+                <p class="footer-credit">Проект Вакина Матвея Вячеславовича, 11 «А» класс, ГБОУ СОШ № 529 Санкт-Петербурга. Руководитель — Спекова Е. К., учитель географии</p>
+            </div>
+        </footer>
+    </div>
+    
+
+    <!-- Подключение скриптов -->
+    <script src="app.js?v=20261106" defer></script>
+    <noscript><p style="position:fixed;left:0;right:0;bottom:0;margin:0;padding:12px 16px;background:#1e293b;color:#fff;font:14px/1.4 sans-serif;text-align:center;z-index:99999">Для работы сайта нужен JavaScript. Если он включён, а контента нет — файл app.js должен лежать рядом с index.html и называться ровно app.js.</p></noscript>
+</body>
+</html>

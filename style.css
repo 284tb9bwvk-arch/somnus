@@ -1,0 +1,3634 @@
+/* ==========================================================================
+   CSS АРХИТЕКТУРА И ДИЗАЙН-ТОКЕНЫ
+   ========================================================================== */
+
+:root {
+    /* Цветовая палитра (Dark Mode по умолчанию, стиль Linear/Apple) */
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
+    --bg-tertiary: #1A1A1A;
+    --text-primary: #EDEDED;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    --accent-primary: #3b82f6;
+    --accent-hover: #60a5fa;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(255, 255, 255, 0.15);
+    /* Типографика */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* Отступы (Spacings - 4px grid) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+    --space-4xl: 96px;
+    /* Скругления (Radii) */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    /* Тени и свечения */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --glow-accent: 0 0 24px rgba(59, 130, 246, 0.3);
+    /* Анимации (Transitions - Apple easings) */
+    --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    /* Контейнер */
+    --container-width: 1200px;
+    --container-padding: var(--space-xl);
+}
+
+/* ==========================================================================
+   СБРОС СТИЛЕЙ И БАЗОВЫЕ НАСТРОЙКИ (RESET & BASE)
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    /* Базовый цвет всей лаборатории Somnus */
+    background-color: #080b12;
+    /* Очень мягкое, глубокое свечение в верхней части экрана (незаметное глазу, но дающее объем) */
+    background-image: radial-gradient(ellipse 80% 55% at 50% 10%, rgba(76, 65, 140, 0.08) 0%, rgba(8, 11, 18, 0) 70%);
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Фон стоит на месте при скролле */
+    color: #f8fafc;
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    /* Глобальная защита от горизонтального скролла */
+    overflow-x: hidden;
+}
+
+/* Оформление выделения текста */
+
+::selection {
+    background-color: var(--accent-primary);
+    color: #FFFFFF;
+}
+
+/* Оформление полосы прокрутки */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   СТРУКТУРНЫЕ КЛАССЫ И ТИПОГРАФИКА
+   ========================================================================== */
+
+.app-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ==================================================
+   SOMNUS HEADER - АРХИТЕКТУРА И СОСТОЯНИЯ
+   ================================================== */
+
+.somnus-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Состояние при скролле (появление стекла) */
+
+.somnus-header.is-scrolled {
+    background: rgba(8, 11, 18, 0.82);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.somnus-header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px 40px;
+    transition: padding 0.3s ease;
+}
+
+.somnus-header.is-scrolled .somnus-header__container {
+    padding: 16px 40px; /* Слегка сужаем при прокрутке для компактности */
+}
+
+.somnus-header__logo {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1002;
+}
+
+.somnus-logo-link {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.somnus-logo-dot {
+    color: #8E5ED2;
+}
+
+.somnus-header__nav {
+    margin-left: auto;
+}
+
+.somnus-header__list {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.somnus-header__link {
+    white-space: nowrap;
+    /* Ваши существующие стили типографики и цветов */
+}
+
+#somnus-mobile-toggle {
+    display: none;
+    z-index: 1001; /* Поверх мобильного меню */
+}
+
+/* Мобильная навигация (включается рано, чтобы избежать излома на планшетах) */
+
+@media (max-width: 860px) {
+    #somnus-mobile-toggle {
+        display: block;
+        /* Сохраните ваши стили кнопки бургера */
+    }
+
+    .somnus-header__nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Скрыто по умолчанию */
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        background: rgba(8, 11, 18, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+    }
+
+    .somnus-header__nav--open {
+        right: 0; /* Меню открыто */
+    }
+
+    .somnus-header__list {
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
+/* Ссылки и тонкий активный статус */
+
+.somnus-header__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+.somnus-header__link:hover {
+    color: #ffffff;
+}
+
+.somnus-header__link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #8E5ED2;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+/* Активный пункт (управляется JS) */
+
+.somnus-header__link.somnus-header__link--active {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.somnus-header__link.somnus-header__link--active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Бургер (на десктопе скрыт) */
+
+.somnus-burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    position: relative;
+    z-index: 1002;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Физическая недосягаемость линий для клика */
+
+.somnus-burger__line {
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
+    pointer-events: none;
+}
+
+.somnus-burger__line:nth-child(1) {
+    top: 14px;
+}
+
+.somnus-burger__line:nth-child(2) {
+    top: 21px;
+}
+
+.somnus-burger__line:nth-child(3) {
+    top: 28px;
+}
+
+.somnus-burger[aria-expanded="true"] .somnus-burger__line:nth-child(1) {
+    top: 21px;
+    transform: rotate(45deg);
+}
+
+.somnus-burger[aria-expanded="true"] .somnus-burger__line:nth-child(2) {
+    opacity: 0;
+}
+
+.somnus-burger[aria-expanded="true"] .somnus-burger__line:nth-child(3) {
+    top: 21px;
+    transform: rotate(-45deg);
+}
+
+/* ==================================================
+   АДАПТИВНОСТЬ
+   ================================================== */
+
+/* Средние экраны - спасаем от столкновения */
+
+@media (max-width: 1100px) {
+    .somnus-header__container {
+        padding: 24px 30px;
+    }
+
+    .somnus-header.is-scrolled .somnus-header__container {
+        padding: 16px 30px;
+    }
+
+    .somnus-header__list {
+        gap: 30px;
+    }
+}
+
+/* Мобильный экран - переломная точка */
+
+@media (max-width: 860px) {
+    .somnus-burger {
+        display: flex;
+    }
+
+    .somnus-header__nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(8, 11, 18, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Плавное всплытие меню */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+    }
+
+    .somnus-header__nav.somnus-header__nav--open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .somnus-header__list {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .somnus-header__link {
+        font-size: 1.25rem;
+        padding: 12px 20px;
+    }
+}
+
+/* Блокировка прокрутки (управляется JS) */
+
+/* Уважение к системным настройкам анимации */
+
+@media (prefers-reduced-motion: reduce) {
+    .somnus-header,
+.somnus-header.is-scrolled,
+.somnus-header__nav,
+.somnus-burger__line,
+.somnus-header__link::after {
+        transition: none;
+    }
+}
+
+/* Пробиваем невидимые слои Hero */
+
+.somnus-header {
+    z-index: 99999;
+}
+
+/* Форсируем применение фона, исключая перехват другими классами */
+
+.somnus-header.is-scrolled {
+    background: rgba(8, 11, 18, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Гарантируем, что кнопка перехватывает клики/тапы */
+
+#somnus-mobile-toggle {
+    pointer-events: auto;
+    z-index: 100000;
+}
+
+.site-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-footer {
+    padding: var(--space-2xl) 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--space-4xl);
+}
+
+/* ==========================================================================
+   БАЗОВЫЕ КОМПОНЕНТЫ (ФУНДАМЕНТ ДЛЯ СЛЕДУЮЩИХ ЭТАПОВ)
+   ========================================================================== */
+
+/* Заготовки для типографики */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--text-primary);
+}
+
+/* Glass-эффект (заготовка) */
+
+.glass-panel {
+    background: rgba(17, 17, 17, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+}
+
+/* Анимация появления контента при загрузке (Fade In) */
+
+@keyframes fadeIn {
+    from {
+    opacity: 0;
+    transform: translateY(10px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+}
+
+/* ==================================================
+   SOMNUS HERO
+================================================== */
+
+.somnus-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 88px;
+    overflow: hidden;
+    font-family: var(--font-sans);
+    box-sizing: border-box;
+    --somnus-mx: 0;
+    --somnus-my: 0;
+}
+
+.somnus-hero *,
+.somnus-hero *::before,
+.somnus-hero *::after { box-sizing: inherit; }
+
+.somnus-hero::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 160px;
+    background: linear-gradient(to bottom, rgba(8, 11, 18, 0) 0%, #080b12 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.somnus-hero__visuals {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+.somnus-hero__glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.35;
+    will-change: transform;
+}
+
+.somnus-hero__glow--primary {
+    top: -8%; right: -6%;
+    width: 52vw; height: 52vw; max-width: 680px; max-height: 680px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.55) 0%, rgba(8, 11, 18, 0) 70%);
+    transform: translate(calc(var(--somnus-mx) * -40px), calc(var(--somnus-my) * -40px));
+}
+
+.somnus-hero__glow--secondary {
+    bottom: -14%; left: -10%;
+    width: 56vw; height: 56vw; max-width: 720px; max-height: 720px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(8, 11, 18, 0) 70%);
+    transform: translate(calc(var(--somnus-mx) * 30px), calc(var(--somnus-my) * 30px));
+}
+
+/* Звёзды: несколько слоёв мелких точек */
+.somnus-hero__stars {
+    position: absolute;
+    inset: 0;
+    opacity: 0.7;
+    background-image:
+        radial-gradient(1.2px 1.2px at 12% 22%, rgba(255,255,255,.75), transparent 60%),
+        radial-gradient(1px 1px at 28% 68%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(1.4px 1.4px at 44% 14%, rgba(196,181,253,.8), transparent 60%),
+        radial-gradient(1px 1px at 58% 82%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(1.2px 1.2px at 71% 30%, rgba(147,197,253,.8), transparent 60%),
+        radial-gradient(1px 1px at 86% 62%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1.2px 1.2px at 93% 16%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1px 1px at 6% 86%, rgba(255,255,255,.45), transparent 60%),
+        radial-gradient(1px 1px at 37% 40%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 79% 90%, rgba(255,255,255,.4), transparent 60%);
+    animation: somnus-twinkle 7s ease-in-out infinite alternate;
+}
+
+@keyframes somnus-twinkle {
+    from { opacity: 0.45; }
+    to { opacity: 0.85; }
+}
+
+.somnus-hero__container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1168px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 56px;
+    align-items: center;
+}
+
+.somnus-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #c4b5fd;
+    padding: 7px 14px 7px 12px;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    background: rgba(139, 92, 246, 0.08);
+    border-radius: 999px;
+    margin-bottom: 28px;
+}
+
+.hero-eyebrow i {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #a78bfa;
+    box-shadow: 0 0 10px #a78bfa;
+}
+
+.somnus-hero__title {
+    font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin: 0 0 22px;
+    color: #fff;
+}
+
+.somnus-hero__highlight {
+    background: linear-gradient(135deg, #c4b5fd 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.somnus-hero__subtitle {
+    font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+    font-weight: 500;
+    color: #e2e8f0;
+    margin: 0 0 14px;
+    line-height: 1.3;
+}
+
+.somnus-hero__desc {
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    color: #94a3b8;
+    line-height: 1.65;
+    margin: 0 0 36px;
+    max-width: 520px;
+}
+
+.somnus-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.somnus-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 26px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.55), rgba(59, 130, 246, 0.45));
+    border: 1px solid rgba(147, 197, 253, 0.45);
+    box-shadow: 0 8px 28px rgba(59, 130, 246, 0.22);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.somnus-hero__btn--ghost {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: none;
+    color: #e2e8f0;
+}
+
+.somnus-hero__btn-icon { width: 18px; height: 18px; transition: transform 0.25s ease; }
+
+@media (hover: hover) and (pointer: fine) {
+    .somnus-hero__btn:hover { transform: translateY(-2px); color: #fff; border-color: rgba(191, 219, 254, 0.75); box-shadow: 0 12px 34px rgba(59, 130, 246, 0.32); }
+    .somnus-hero__btn--ghost:hover { background: rgba(255, 255, 255, 0.08); box-shadow: none; }
+    .somnus-hero__btn:hover .somnus-hero__btn-icon { transform: translateX(4px); }
+}
+
+.somnus-hero__btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 3px; }
+
+/* Карточка «Модельная ночь» */
+.hero-card {
+    position: relative;
+    padding: 22px 22px 18px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(23, 31, 56, 0.72), rgba(13, 19, 36, 0.72));
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    min-width: 0;
+    transform: translate(calc(var(--somnus-mx) * 6px), calc(var(--somnus-my) * 6px));
+}
+
+.hero-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+}
+
+.hero-card__title { color: #e2e8f0; font-weight: 600; letter-spacing: 0.02em; }
+.hero-card__time { color: #64748b; font-variant-numeric: tabular-nums; }
+
+.hero-card__svg { display: block; width: 100%; height: 150px; overflow: visible; }
+
+.hc-grid line { stroke: rgba(148, 163, 184, 0.1); stroke-width: 1; stroke-dasharray: 3 5; vector-effect: non-scaling-stroke; }
+
+.hc-path, .hc-path-glow {
+    fill: none;
+    stroke: url(#hcg);
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.hc-path { stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: hc-draw 3.6s cubic-bezier(.4, 0, .2, 1) .4s forwards; }
+.hc-path-glow { stroke-width: 6; opacity: 0.5; }
+
+@keyframes hc-draw { to { stroke-dashoffset: 0; } }
+
+.hero-card__axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.7rem;
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+}
+
+.hero-card__stats {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 18px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.hero-card__stats li { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.hero-card__stats b { font-size: 1.15rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; white-space: nowrap; }
+.hero-card__stats span { font-size: 0.72rem; line-height: 1.35; color: #94a3b8; }
+
+.hero-card__note { margin: 14px 0 0; font-size: 0.68rem; line-height: 1.4; color: #64748b; }
+
+@media (max-width: 960px) {
+    .somnus-hero { min-height: auto; padding: 108px 0 64px; }
+    .somnus-hero__container { grid-template-columns: 1fr; gap: 40px; }
+    .hero-card { max-width: 560px; }
+}
+
+@media (max-width: 560px) {
+    .somnus-hero__container { padding: 0 20px; }
+    .somnus-hero__actions { width: 100%; }
+    .somnus-hero__btn { width: 100%; }
+    .hero-card { padding: 18px 16px 14px; border-radius: 20px; }
+    .hero-card__stats b { font-size: 1rem; }
+}
+
+@media (max-width: 375px) {
+    .somnus-hero__title { font-size: 2.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .somnus-hero { --somnus-mx: 0; --somnus-my: 0; }
+    .somnus-hero__stars { animation: none; }
+    .hc-path { animation: none; stroke-dashoffset: 0; }
+    .somnus-hero__btn { transition: none; }
+}
+
+/* ==========================================================================
+   КОМПОНЕНТЫ: КНОПКИ
+   ========================================================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    border: none;
+    letter-spacing: -0.01em;
+}
+
+.btn-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-primary);
+    color: #FFFFFF;
+    box-shadow: var(--glow-accent);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   БАЗОВЫЕ СЕКЦИИ И СЕТКА
+   ========================================================================== */
+
+.section {
+    padding: var(--space-4xl) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   КОМПОНЕНТЫ: КАРТОЧКИ
+   ========================================================================== */
+
+.card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.card:hover {
+    border-color: var(--border-highlight);
+    background: var(--bg-tertiary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ И МОБИЛЬНОЕ МЕНЮ
+   ========================================================================== */
+
+/* Скрываем кнопку бургера на десктопе */
+
+@media (max-width: 768px) {
+    /* Мобильное выпадающее меню */
+
+    /* Анимация иконки крестика при открытии */
+
+    /* Калибровка отступов */
+
+    .section {
+        padding: var(--space-2xl) 0;
+    }
+}
+
+/* ==========================================================================
+   ФУТЕР (ПОДВАЛ САЙТА)
+   ========================================================================== */
+
+.site-footer {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--space-4xl);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 320px;
+}
+
+.footer-desc {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.footer-title {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    font-weight: 600;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.footer-link {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* Мобильная адаптивность футера */
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+
+    .site-footer {
+        padding: var(--space-2xl) 0 var(--space-lg);
+        margin-top: var(--space-2xl);
+    }
+}
+
+/* ==========================================================================
+   РАЗДЕЛ: SCIENCE LIBRARY (НАУЧНАЯ БИБЛИОТЕКА)
+   ========================================================================== */
+
+.science-library {
+    padding: 100px 0;
+    background-color: #080b12;
+    color: #e0e0e0;
+    font-family: var(--font-sans);
+}
+
+.library-header {
+    margin-bottom: 48px;
+    text-align: left;
+}
+
+.library-header .section-title {
+    color: #ffffff;
+}
+
+.library-header .section-subtitle {
+    font-size: 1.05rem;
+    color: #8e8e93;
+    max-width: 640px;
+    line-height: 1.5;
+}
+
+/* Панель управления (Поиск и Фильтры) */
+
+.library-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 14px 20px;
+    background: #161618;
+    border: 1px solid #2c2c2e;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-wrapper input::placeholder {
+    color: #636366;
+}
+
+.search-wrapper input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.filter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.filter-btn.active {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: #8b5cf6;
+    color: #ffffff;
+}
+
+/* Сетка карточек */
+
+.science-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* Карточка исследования */
+
+.science-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.science-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.12);
+}
+
+.card-top {
+    margin-bottom: 20px;
+}
+
+.card-category {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #60a5fa;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.card-summary {
+    font-size: 0.875rem;
+    color: #a1a1a6;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-meta {
+    font-size: 0.8rem;
+    color: #636366;
+    margin-bottom: 16px;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.card-tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    background: #1c1c1e;
+    border-radius: 6px;
+    color: #8e8e93;
+}
+
+.card-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid #222226;
+}
+
+.card-read-more {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #60a5fa;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-read-time {
+    font-size: 0.75rem;
+    color: #636366;
+}
+
+/* Empty State */
+
+.science-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #8e8e93;
+    font-size: 1rem;
+}
+
+.science-empty.hidden {
+    display: none;
+}
+
+/* ==========================================================================
+   АБСОЛЮТНАЯ ИЗОЛЯЦИЯ: ОКНО НАУКИ
+   ========================================================================== */
+
+.science-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 999999; /* Максимальный приоритет */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.science-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.science-modal .modal-content {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    max-width: 680px;
+    max-height: 85vh;
+    box-sizing: border-box;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow-y: auto;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #2c2c2e;
+    border: none;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    z-index: 2;
+}
+
+.modal-close:hover {
+    background: #3a3a3c;
+}
+
+.modal-scroll-area {
+    padding: 32px;
+    overflow-y: auto;
+}
+
+.modal-header {
+    margin-bottom: 24px;
+    padding-right: 32px;
+}
+
+.modal-meta {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #60a5fa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 10px;
+}
+
+.modal-authors {
+    font-size: 0.875rem;
+    color: #8e8e93;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.modal-section h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.modal-section p {
+    font-size: 0.95rem;
+    color: #c7c7cc;
+    line-height: 1.6;
+}
+
+.limitations-section {
+    padding: 16px;
+    background: rgba(255, 159, 10, 0.08);
+    border-left: 3px solid #ff9f0a;
+    border-radius: 0 8px 8px 0;
+}
+
+.limitations-section h4 {
+    color: #ff9f0a;
+}
+
+.limitations-section p {
+    color: #d1d1d6;
+    font-size: 0.875rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(96, 165, 250, 0.4);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(96, 165, 250, 0.7);
+}
+
+/* Учет настроек движения пользователя */
+
+@media (prefers-reduced-motion: reduce) {
+    .science-card,
+.filter-btn,
+.science-modal {
+        transition: none;
+    }
+}
+
+/* Адаптив под мобильные устройства */
+
+@media (max-width: 768px) {
+    .science-library {
+        padding: 60px 0;
+    }
+
+    .library-header .section-title {
+        font-size: 1.75rem;
+    }
+
+    .science-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-scroll-area {
+        padding: 24px 20px;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* ==========================================================================
+   ПОДСВЕТКА НАВИГАЦИИ (SCROLLSPY)
+   ========================================================================== */
+
+nav a {
+    transition: color 0.3s ease, opacity 0.3s ease;
+    opacity: 0.6; /* Тусклый цвет для неактивных ссылок */
+}
+
+/* ==========================================================================
+   КНОПКА И АНИМАЦИЯ СВОРАЧИВАНИЯ
+   ========================================================================== */
+
+.toggle-collapse-btn {
+    background: transparent;
+    border: 1px solid #2c2c2e;
+    color: #a0a0a5;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.toggle-collapse-btn:hover {
+    background: #2c2c2e;
+    color: #ffffff;
+}
+
+/* Базовое состояние сетки */
+
+#science-grid {
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, margin 0.4s ease;
+    max-height: 10000px; /* Достаточно большое значение для развернутого состояния */
+    opacity: 1;
+    overflow: hidden;
+    padding-bottom: 24px; /* Место для hover-эффекта (translateY + свечение) последнего ряда карточек, чтобы overflow:hidden его не обрезал */
+}
+
+/* Свернутое состояние */
+
+#science-grid.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    pointer-events: none; /* Отключаем клики по скрытым элементам */
+}
+
+/* Контейнер сцены */
+
+.bedroom-section {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.bedroom-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.bedroom-header p {
+    font-size: 1rem;
+    color: #9ca3af;
+    line-height: 1.6;
+}
+
+.bedroom-visual-container {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0a0a0a;
+}
+
+.bedroom-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Hotspots */
+
+.hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hotspot-ring {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+    animation: pulse-ring 4s infinite ease-in-out;
+}
+
+.hotspot-label {
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Взаимодействие */
+
+@media (hover: hover) {
+    .hotspot:hover {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .hotspot:hover .hotspot-label {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hotspot.active {
+    opacity: 1;
+}
+
+.hotspot.active .hotspot-ring {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    animation: none;
+}
+
+/* Координаты для image_9.png */
+
+.hotspot.light {
+    top: 45%; left: 19%;
+}
+
+/* Плафон лампы */
+
+.hotspot.climate {
+    top: 13%; left: 57%;
+}
+
+/* Блок кондиционера */
+
+.hotspot.smartphone {
+    top: 56%; left: 21%;
+}
+
+/* Смартфон на тумбочке */
+
+.hotspot.bed {
+    top: 72%; left: 54%;
+}
+
+/* Центр спального места */
+
+.hotspot.acoustics {
+    top: 35%; left: 90%;
+}
+
+/* Оконный проем */
+
+/* Информационная панель */
+
+.bedroom-info-panel {
+    min-height: 220px;
+    background: rgba(20, 20, 22, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.info-content {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    display: none;
+}
+
+.info-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}
+
+.info-category {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.science-base {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.somnus-bio-section {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #fff;
+}
+
+.somnus-bio-section .bio-header,
+.somnus-bio-section .bio-interactive-core,
+.somnus-bio-section .bio-info-panel,
+.somnus-bio-section .bio-footer-note {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bio-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.bio-header p {
+    color: #9ca3af; line-height: 1.6; font-size: 1rem; margin-bottom: 1rem;
+}
+
+.bio-disclaimer {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 40px;
+}
+
+/* Интерактивный блок с графиком */
+
+.bio-interactive-core {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.bio-chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/* Кастомный Range Slider */
+
+.bio-slider {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    z-index: 10;
+    cursor: ew-resize;
+    margin: 0;
+    /* Хит-зона занимает всю высоту графика (не обычная тонкая полоска слайдера),
+    поэтому диагональный палец может быть ошибочно принят браузером за скролл
+    страницы. touch-action:none убирает эту двусмысленность жеста на мобильных. */
+    touch-action: none;
+}
+
+.bio-slider:focus {
+    outline: none;
+}
+
+.bio-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 100%; /* Растягиваем на всю высоту графика */
+    width: 44px; /* Удобная touch-зона */
+    background: transparent;
+    cursor: ew-resize;
+}
+
+.bio-slider::-moz-range-thumb {
+    height: 100%;
+    width: 44px;
+    background: transparent;
+    border: none;
+    cursor: ew-resize;
+}
+
+/* Визуальная линия и время, привязанные к ползунку */
+
+/* Информационная панель */
+
+.bio-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 20px;
+    min-height: 200px;
+}
+
+.bio-category-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+}
+
+.bio-text-content h3 {
+    margin-bottom: 1rem; font-size: 1.25rem;
+}
+
+.bio-text-content p {
+    color: rgba(255,255,255,0.8); line-height: 1.6; font-size: 0.95rem;
+}
+
+.bio-status-indicators {
+    display: flex;
+    gap: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+}
+
+.status-item {
+    display: flex; align-items: center; gap: 0.75rem;
+}
+
+.status-color {
+    width: 12px; height: 12px; border-radius: 50%;
+}
+
+.melatonin-color {
+    background: #7C4DFF; box-shadow: 0 0 8px rgba(124,77,255,0.6);
+}
+
+.cortisol-color {
+    background: #FFC107; box-shadow: 0 0 8px rgba(255,193,7,0.6);
+}
+
+.status-info {
+    display: flex; flex-direction: column;
+}
+
+.status-name {
+    font-size: 0.75rem; color: rgba(255,255,255,0.5);
+}
+
+.status-value {
+    font-size: 0.9rem; font-weight: bold; text-transform: lowercase;
+}
+
+.bio-footer-note {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.5;
+    border-left: 2px solid rgba(255,255,255,0.2);
+    padding-left: 1rem;
+}
+
+@media (min-width: 768px) {
+    .bio-info-panel {
+        flex-direction: row; justify-content: space-between;
+    }
+
+    .bio-text-content {
+        flex: 1; padding-right: 2rem; border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .bio-status-indicators {
+        flex-direction: column; border-top: none; padding-top: 0; min-width: 200px; justify-content: center;
+    }
+}
+
+.somnus-breathing-container {
+    width: 100%;
+    box-sizing: border-box;
+    color: #e0e0e0;
+    text-align: center;
+    font-family: inherit;
+}
+
+.breathing-header {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.breathing-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+.breathing-header p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #9ca3af;
+    margin-bottom: 2.5rem;
+}
+
+.breathing-safety-card {
+    margin: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    text-align: left;
+}
+
+.breathing-safety-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #f59e0b;
+    margin-bottom: 0.6rem;
+}
+
+.breathing-safety-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #d1d5db;
+    margin: 0;
+}
+
+.breathing-safety-card p + p {
+    margin-top: 0.6rem;
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+/* Состояния сферы, управляемые через JS */
+
+.somnus-text-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.85rem;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.somnus-text-btn:hover {
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Безопасность и доступность */
+
+/* ==========================================================================
+   SOMNUS: ДНЕВНИК СНА
+   ========================================================================== */
+
+#somnus-diary-module {
+    font-family: var(--font-sans);
+    color: #e0e0e0;
+}
+
+.diary-header {
+    text-align: center; margin-bottom: 3rem;
+}
+
+.diary-header h2 {
+    font-size: 2.2rem; font-weight: 300; margin-bottom: 0.5rem; color: #fff;
+}
+
+.diary-header p {
+    color: #888; font-size: 0.95rem;
+}
+
+.diary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Форма */
+
+.diary-time-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.diary-input-block {
+    margin-bottom: 1.5rem; display: flex; flex-direction: column;
+}
+
+.diary-input-block label,
+.diary-rating-group label {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+}
+
+.diary-input-block input[type="time"],
+.diary-input-block select,
+.diary-input-block textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.diary-input-block input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.diary-input-block input:focus,
+.diary-input-block select:focus,
+.diary-input-block textarea:focus {
+    outline: none;
+    border-color: rgba(96, 165, 250, 0.6);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.diary-rating-group {
+    margin-bottom: 1.5rem;
+}
+
+.diary-radio-row {
+    display: flex; gap: 0.5rem;
+}
+
+.diary-radio-row input[type="radio"] {
+    display: none;
+}
+
+.diary-radio-row label {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #888;
+}
+
+.diary-radio-row input[type="radio"]:checked + label {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #60a5fa;
+    color: #fff;
+}
+
+.diary-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.4);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.diary-submit-btn:hover {
+    background: rgba(59, 130, 246, 0.2); border-color: rgba(96, 165, 250, 0.7);
+}
+
+.diary-local-notice {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: #666;
+    text-align: center;
+}
+
+.diary-error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Дашборд */
+
+.diary-dashboard {
+    display: flex; flex-direction: column; gap: 1.5rem;
+}
+
+.diary-subheading {
+    font-size: 1.1rem; font-weight: 400; color: #fff; margin-bottom: 1.5rem; margin-top: 0;
+}
+
+.stats-row {
+    display: flex; justify-content: space-between; margin-bottom: 1.5rem;
+}
+
+.stat-box {
+    display: flex; flex-direction: column; gap: 0.4rem;
+}
+
+.stat-label {
+    font-size: 0.8rem; color: #888;
+}
+
+.stat-value {
+    font-size: 1.4rem; font-weight: 300; color: #fff;
+}
+
+.stats-disclaimer {
+    font-size: 0.75rem; color: #666; line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;
+}
+
+/* График */
+
+.diary-bar-chart {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+    position: relative;
+}
+
+.diary-bar {
+    flex: 1;
+    background: rgba(59, 130, 246, 0.35);
+    border-radius: 4px 4px 0 0;
+    min-height: 2px;
+    transition: height 0.5s ease, background 0.2s ease;
+    position: relative;
+}
+
+.diary-bar:hover {
+    background: rgba(96, 165, 250, 0.6);
+}
+
+.diary-bar-tooltip {
+    position: absolute;
+    top: -30px; left: 50%;
+    transform: translateX(-50%);
+    background: #222; padding: 4px 8px;
+    border-radius: 4px; font-size: 0.75rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s; white-space: nowrap;
+}
+
+.diary-bar:hover .diary-bar-tooltip {
+    opacity: 1;
+}
+
+.diary-empty-state {
+    width: 100%; text-align: center; color: #555; font-size: 0.85rem; margin-bottom: 2rem;
+}
+
+/* История */
+
+.history-header-row {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+}
+
+.diary-text-btn {
+    background: none; border: none; color: #888; font-size: 0.8rem; cursor: pointer; transition: color 0.2s;
+}
+
+.diary-text-btn:hover {
+    color: #ff6b6b;
+}
+
+.diary-history-list {
+    list-style: none; padding: 0; margin: 0; max-height: 250px; overflow-y: auto;
+}
+
+.diary-history-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.8rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+}
+
+.diary-history-item:last-child {
+    border-bottom: none;
+}
+
+.history-date {
+    color: #bbb; width: 80px;
+}
+
+.history-metrics {
+    color: #fff; flex: 1; text-align: center;
+}
+
+.history-delete {
+    color: #555; cursor: pointer; font-size: 1.2rem; background: none; border:none; transition: color 0.2s;
+}
+
+.history-delete:hover {
+    color: #ff6b6b;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Scrollbar для истории */
+
+.diary-history-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.diary-history-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.diary-history-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2); border-radius: 4px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+    .diary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .diary-time-group {
+        grid-template-columns: 1fr; gap: 0;
+    }
+
+    .stats-row {
+        flex-direction: column; gap: 1rem;
+    }
+}
+
+/* ==========================================================================
+   ИССЛЕДОВАНИЕ СТАРШЕКЛАССНИКОВ + САМООЦЕНКА СНА
+   ========================================================================== */
+
+#peer-research,
+#sleep-self-check {
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.somnus-section__header {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.somnus-section__eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #60a5fa;
+    margin-bottom: 16px;
+}
+
+.somnus-section__header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.somnus-section__header p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #9ca3af;
+}
+
+/* --- Опрос старшеклассников --- */
+
+.peer-research-card {
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 32px;
+}
+
+.research-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #60a5fa;
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.8);
+    animation: pulse-ring 2s infinite;
+}
+
+.research-status-text {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.research-pipeline {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.pipeline-step {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 0.5;
+}
+
+.pipeline-step.is-active {
+    opacity: 1;
+    background: rgba(59, 130, 246, 0.08);
+    border-color: rgba(96, 165, 250, 0.35);
+}
+
+.step-index {
+    font-size: 0.75rem;
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+.step-label {
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+/* --- Самооценка сна --- */
+
+.self-check-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 32px;
+}
+
+.self-check-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 28px;
+}
+
+.self-check-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width 0.3s ease;
+}
+
+.self-check-question {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.self-check-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.self-check-option {
+    text-align: left;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.self-check-option:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(96, 165, 250, 0.4);
+    color: #fff;
+}
+
+.self-check-option:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+}
+
+.self-check-meta {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.self-check-result h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 8px 0 12px;
+}
+
+.self-check-result > p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.self-check-tips {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.self-check-tips li {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 2px solid #60a5fa;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.self-check-disclaimer {
+    font-size: 0.8rem;
+    color: #6b7280;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 16px;
+    margin-bottom: 20px;
+}
+
+.self-check-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .peer-research-card,
+.self-check-card {
+        padding: 24px;
+    }
+
+    .research-pipeline {
+        grid-template-columns: 1fr;
+    }
+
+    .self-check-actions {
+        flex-direction: column; align-items: stretch;
+    }
+
+    .self-check-actions .btn-primary {
+        text-align: center;
+    }
+}
+
+/* Анимации и доступность */
+
+@keyframes pulse-ring {
+    0% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
+    50% { transform: scale(1.2); box-shadow: 0 0 16px rgba(255, 255, 255, 0.4); }
+    100% { transform: scale(1); box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hotspot-ring {
+        animation: none;
+    }
+
+    .hotspot {
+        transition: none;
+    }
+
+    .info-content {
+        transition: opacity 0.1s ease;
+    }
+}
+
+@media (max-width: 768px) {
+    .bedroom-info-panel {
+        padding: 1.5rem;
+    }
+
+    .hotspot-label {
+        display: none;
+    }
+
+    /* Убираем подписи на мобильных, чтобы не перегружать экран */
+}
+
+/* Фикс наложения элементов в библиотеке */
+
+.library-header {
+    position: relative;
+    float: none;
+    display: block;
+    height: auto;
+    margin-bottom: 32px;
+}
+
+.library-header .section-subtitle {
+    position: relative;
+    float: none;
+    display: block;
+    height: auto;
+}
+
+.library-controls {
+    position: relative !important;
+    float: none !important;
+    clear: both !important;
+    margin-top: 0 !important;
+}
+
+/* Гарантированный отступ между интерактивной спальней и биохимией */
+
+/* ==========================================================================
+   SOMNUS: ВЫПАДАЮЩЕЕ МЕНЮ (ИНТЕРАКТИВ)
+   ========================================================================== */
+
+.nav-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.dropdown-trigger {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dropdown-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.25s ease;
+    opacity: 0.7;
+}
+
+.nav-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 260px;
+    background: rgba(22, 22, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 8px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 1000;
+}
+
+/* Мостик для курсора, чтобы меню не пропадало при наведении */
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.dropdown-item .item-title {
+    font-size: 0.85rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.dropdown-item .item-desc {
+    font-size: 0.72rem;
+    color: #8e8e93;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   МОБИЛЬНАЯ НАВИГАЦИЯ: ПРОСТОЙ И УДОБНЫЙ СПИСОК
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Отключаем позиционирование выпадающего окна */
+
+    .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        padding: 4px 0 4px 12px; /* Небольшой отступ слева */
+        margin-top: 4px;
+    }
+
+    /* Прячем стрелочку и заголовок-ссылку, так как варианты и так видны */
+
+    .dropdown-trigger {
+        display: none;
+    }
+
+    /* Стилизуем пункты под мобильное меню */
+
+    .dropdown-item {
+        padding: 8px 12px;
+        border-left: 2px solid rgba(255, 255, 255, 0.15);
+        margin-bottom: 6px;
+    }
+
+    .dropdown-item .item-title {
+        font-size: 0.9rem;
+    }
+
+    .dropdown-item .item-desc {
+        font-size: 0.75rem;
+    }
+}
+
+/* Исключаем перехват клика дочерними элементами интерактива */
+
+.dropdown-item * {
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    /* Исправлена опечатка в классе и убрана гигантская пустая высота */
+
+    /* Отключаем полосы и границы у шапки, подвала и карточек */
+
+    .site-footer,
+.card,
+.glass-panel {
+        border: none;
+    }
+
+    .section {
+        padding: var(--space-2xl) 0;
+    }
+
+    /* Мобильное выпадающее меню */
+}
+
+@media (max-width: 768px) {
+    /* 1. Принудительно зажимаем все блоки в пределы экрана */
+
+    section {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 2. Кнопки переключения фаз (REM, N1...): разрешаем горизонтальную прокрутку */
+
+    /* 4. Заставляем заголовки и текст переносно умещаться */
+
+    h2,
+h3,
+p {
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+}
+
+/* 1. Блокируем сдвиг экрана при управлении ползунком */
+
+canvas,
+input[type="range"] {
+    touch-action: pan-y;
+}
+
+/* touch-action: pan-y; разрешает листать сайт вверх-вниз, но забирает свайпы вправо-влево исключительно для управления графиком. */
+
+/* 2. Задаем безопасную дистанцию между текстом и графиком на телефонах */
+
+/* (правило svg{width:100%!important} удалено: ломало иконки и логотип на мобильных) */
+
+/* Принудительный сброс ширины и сеток для непослушных блоков */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; /* Именно это свойство убивает вылеты за экран */
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Запрещаем любому тексту внутри этих блоков ломать контейнер */
+
+.card * {
+    max-width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+/* Принудительная изоляция утечки ширины */
+
+html,
+body,
+.app-container,
+main {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.somnus-sleep-architecture {
+    width: 100%;
+    box-sizing: border-box;
+    color: #f3f4f6;
+    font-family: inherit;
+    /* Изоляция ширины */
+}
+
+.somnus-sleep-architecture * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.somnus-sleep-architecture__inner {
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.somnus-sleep-architecture__header {
+    margin-bottom: 32px;
+}
+
+.somnus-sleep-architecture__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+
+.somnus-sleep-architecture__intro {
+    font-size: 1rem;
+    color: #9ca3af;
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+/* Мобильный скролл для вкладок */
+
+.somnus-sleep-architecture__tabs-wrapper {
+    margin-bottom: 24px;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+}
+
+.somnus-sleep-architecture__tabs-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.somnus-sleep-architecture__tabs {
+    display: inline-flex;
+    gap: 8px;
+    padding-bottom: 4px;
+}
+
+.somnus-sleep-architecture__tab {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9ca3af;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-height: 44px;
+}
+
+.somnus-sleep-architecture__tab:hover,
+.somnus-sleep-architecture__tab:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    outline: none;
+}
+
+.somnus-sleep-architecture__tab.active {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: #8b5cf6;
+    color: #ffffff;
+}
+
+/* График */
+
+.somnus-sleep-architecture__chart-container {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+}
+
+/* Цвета фаз остаются без изменений */
+
+/* Режим изоляции фаз */
+
+/* Новая мощная подсветка */
+
+/* Контроллер */
+
+.somnus-sleep-architecture__controls {
+    margin-top: 24px;
+}
+
+.somnus-sleep-architecture__time-header {
+    margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: baseline;
+}
+
+.somnus-sleep-architecture__time-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    font-variant-numeric: tabular-nums;
+}
+
+.somnus-sleep-architecture__range-wrapper {
+    position: relative;
+    padding: 10px 0;
+}
+
+.somnus-sleep-architecture__range {
+    width: 100%;
+    height: 6px;
+    background: #1e293b;
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    touch-action: pan-y;
+}
+
+.somnus-sleep-architecture__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f43f5e;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);
+    border: 2px solid #0f172a;
+}
+
+/* Карточка */
+
+.somnus-sleep-architecture__info-card {
+    background: rgba(30, 41, 59, 0.4);
+    border-left: 4px solid #3b82f6;
+    border-radius: 0 12px 12px 0;
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: border-color 0.3s ease;
+}
+
+.somnus-sleep-architecture__card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.somnus-sleep-architecture__card-badge {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.somnus-sleep-architecture__card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.somnus-sleep-architecture__card-text {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.somnus-sleep-architecture__card-disclaimer {
+    font-size: 0.75rem;
+    color: #64748b;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 12px;
+}
+
+/* Наука */
+
+.somnus-sleep-architecture__science-summary {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.somnus-sleep-architecture__science-summary:hover {
+    color: #e2e8f0;
+}
+
+.somnus-sleep-architecture__science-list {
+    margin-top: 16px;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+.somnus-sleep-architecture__science-list li {
+    margin-bottom: 12px;
+}
+
+/* Адаптивность и доступность */
+
+@media (prefers-reduced-motion: reduce) {
+    .somnus-sleep-architecture__info-card {
+        transition: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .somnus-sleep-architecture {
+        padding: 32px 16px;
+    }
+
+    .somnus-sleep-architecture__chart-container {
+        padding: 16px;
+    }
+
+    .somnus-sleep-architecture__card-header {
+        flex-direction: column; align-items: flex-start; gap: 8px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column; align-items: flex-start; gap: 8px;
+    }
+}
+
+/* Броня от глобальных конфликтов позиционирования */
+
+.somnus-sleep-architecture__header,
+.somnus-sleep-architecture__tabs-wrapper,
+.somnus-sleep-architecture__chart-container {
+    position: relative;
+    display: block;
+    height: auto;
+    clear: both;
+}
+
+.somnus-sleep-architecture__header {
+    margin-bottom: 24px;
+}
+
+.somnus-sleep-architecture__title {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 16px;
+}
+
+.somnus-sleep-architecture__intro {
+    display: block;
+    margin-bottom: 32px; /* Отталкиваем график от текста */
+}
+
+/* Защищаем табы от наслаивания на заголовок */
+
+.somnus-sleep-architecture__tabs {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+}
+
+/* В режиме изучения фаз не гасим фон "в ноль", оставляем читаемый след */
+
+/* Двойное неоновое свечение для выделенной фазы */
+
+/* 1. Добавляем пространство внутри самого модуля после "Научной базы" */
+
+/* 2. Жестко отодвигаем следующий глобальный блок ("Интерактивная спальня") */
+
+/* ==========================================================================
+   ЕДИНЫЙ РИТМ СЕКЦИЙ (одинаковые поля, ширина колонки и заголовки)
+   ========================================================================== */
+
+.site-main > section:not(.somnus-hero) {
+    width: 100%;
+    max-width: 1168px;
+    margin: 0 auto;
+    padding: 96px 24px;
+    background: transparent;
+    overflow: visible;
+}
+
+.site-main > section.somnus-section,
+.site-main > section.somnus-breathing-container,
+.site-main > section.somnus-bio-section {
+    text-align: left;
+}
+
+/* Внутренние обёртки занимают всю ширину колонки */
+
+.somnus-sleep-architecture__inner,
+.somnus-bio-section .bio-header,
+.somnus-bio-section .bio-interactive-core,
+.somnus-bio-section .bio-info-panel,
+.somnus-bio-section .bio-footer-note,
+.breathing-header,
+.diary-header,
+.somnus-section__header {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+}
+
+/* Единый заголовок раздела */
+
+.library-header h2,
+.somnus-sleep-architecture__title,
+.bedroom-header h2,
+.bio-header h2,
+.breathing-header h2,
+.diary-header h2,
+.somnus-section__header h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-align: left;
+    margin: 0 0 12px;
+}
+
+.library-header p,
+.somnus-sleep-architecture__intro,
+.bedroom-header p,
+.bio-header > p,
+.breathing-header p,
+.diary-header p,
+.somnus-section__header p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #9ca3af;
+    max-width: 720px;
+    text-align: left;
+    margin: 0 0 24px;
+}
+
+.somnus-section__header,
+.library-header,
+.bedroom-header,
+.diary-header,
+.breathing-header {
+    margin-bottom: 32px;
+}
+
+/* Карточки опроса и самооценки: по левому краю колонки, читаемая ширина */
+
+.peer-research-card,
+.self-check-card,
+.self-check-result {
+    max-width: 760px; margin-left: 0; margin-right: 0;
+}
+
+/* Дыхательный тренажёр: заголовок слева, сам тренажёр по центру */
+
+@media (max-width: 768px) {
+    .site-main > section:not(.somnus-hero) {
+        padding: 64px 20px;
+    }
+}
+
+/* ==========================================================================
+   ДОПОЛНЕНИЯ: ссылки в научной базе, выбор объектов спальни, мобильная версия
+   ========================================================================== */
+
+.science-base a,
+.somnus-sleep-architecture__science-list a {
+    color: #60a5fa;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.science-base a:hover,
+.somnus-sleep-architecture__science-list a:hover {
+    color: #93c5fd;
+}
+
+.bedroom-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.bedroom-chip {
+    font: inherit;
+    font-size: 0.875rem;
+    color: #e5e7eb;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 10px 16px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.bedroom-chip:hover {
+    border-color: rgba(96, 165, 250, 0.6);
+}
+
+.bedroom-chip.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #60a5fa;
+    color: #fff;
+}
+
+.bedroom-chip:focus-visible,
+.hotspot:focus-visible {
+    outline: 2px solid #60a5fa; outline-offset: 3px;
+}
+
+.somnus-hero__btn {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .site-main > section:not(.somnus-hero) {
+        padding: 64px 20px;
+    }
+
+    .hotspot {
+        width: 44px; height: 44px; opacity: 0.85;
+    }
+
+    .hotspot-ring {
+        width: 20px; height: 20px; border-width: 2px; background: rgba(255, 255, 255, 0.25);
+    }
+
+    .somnus-hero__btn {
+        padding: 0 20px; font-size: 0.95rem;
+    }
+}
+
+/* Выпадающее меню «Исследование» не выходит за правый край экрана */
+
+@media (min-width: 769px) {
+    .dropdown-menu {
+        left: auto; right: 0; transform: translateY(8px);
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
+        opacity: 1; visibility: visible; transform: translateY(0);
+    }
+}
+
+/* Элементы форм наследуют шрифт сайта (по умолчанию браузер ставит Arial) */
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+/* Одна левая линия сетки: логотип, hero, секции и подвал начинаются в одной точке */
+
+@media (min-width: 769px) {
+    .somnus-header__container {
+        max-width: none;
+        padding-left: max(40px, calc((100% - 1168px) / 2 + 24px));
+        padding-right: max(40px, calc((100% - 1168px) / 2 + 24px));
+    }
+
+    .site-footer {
+        padding-left: 24px; padding-right: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        padding-left: 20px; padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .somnus-header__container {
+        padding-left: 36px; padding-right: 28px;
+    }
+
+    .somnus-hero__container {
+        padding-left: 20px; padding-right: 20px;
+    }
+}
+
+/* ==========================================================================
+   ГРАФИК ФАЗ СНА (гипнограмма)
+   ========================================================================== */
+[hidden] { display: none !important; }
+
+.sa-chart { width: 100%; }
+.sa-svg { display: block; width: 100%; height: auto; overflow: visible; user-select: none; -webkit-user-select: none; }
+.sa-band { fill: rgba(255, 255, 255, 0.04); }
+.sa-grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+.sa-grid--major { stroke: rgba(255, 255, 255, 0.16); }
+.sa-ylabel { font-size: 12px; font-weight: 600; font-family: var(--font-sans); }
+.sa-xlabel { font-size: 12px; fill: #94a3b8; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.sa-cycle { fill: none; stroke: rgba(148, 163, 184, 0.65); stroke-width: 1.5; }
+.sa-cycle-text { font-size: 11px; font-weight: 600; fill: #cbd5e1; font-family: var(--font-sans); }
+.sa-link { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5; }
+.sa-seg { stroke: rgba(255, 255, 255, 0.3); stroke-width: 1; transition: opacity 0.2s ease; }
+.sa-svg.dim .sa-seg { opacity: 0.55; }
+.sa-svg.dim .sa-seg.hl { opacity: 1; stroke: #ffffff; stroke-width: 2; }
+.sa-svg.dim .sa-seg.hl[data-phase="wake"] { filter: drop-shadow(0 0 7px #fbbf24); }
+.sa-svg.dim .sa-seg.hl[data-phase="rem"] { filter: drop-shadow(0 0 7px #e879f9); }
+.sa-svg.dim .sa-seg.hl[data-phase="n1"] { filter: drop-shadow(0 0 7px #2dd4bf); }
+.sa-svg.dim .sa-seg.hl[data-phase="n2"] { filter: drop-shadow(0 0 7px #3b82f6); }
+.sa-svg.dim .sa-seg.hl[data-phase="n3"] { filter: drop-shadow(0 0 7px #6366f1); }
+.sa-scrub-line { stroke: #f8fafc; stroke-width: 2; stroke-dasharray: 5 4; }
+.sa-scrub-dot { fill: #f43f5e; stroke: #0f172a; stroke-width: 2; }
+.sa-hit { cursor: ew-resize; touch-action: pan-y; }
+
+.sa-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+.sa-dot--n1 { background: #2dd4bf; }
+.sa-dot--n2 { background: #3b82f6; }
+.sa-dot--n3 { background: #6366f1; }
+.sa-dot--rem { background: #e879f9; }
+
+.sa-ref { font-size: 0.85rem; line-height: 1.6; color: #94a3b8; margin: 0 0 24px; max-width: 760px; }
+.somnus-sleep-architecture__time-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+
+/* ==========================================================================
+   ГРАФИК БИОХИМИИ СУТОК
+   ========================================================================== */
+.bio-toolbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.bio-mode { display: inline-flex; padding: 4px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; }
+.bio-mode-btn { font: inherit; font-size: 0.875rem; font-weight: 600; color: #cbd5e1; background: transparent; border: 0; border-radius: 999px; padding: 8px 18px; min-height: 40px; cursor: pointer; }
+.bio-mode-btn.is-active { background: #3b82f6; color: #ffffff; }
+.bio-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: #cbd5e1; }
+.bio-legend li { display: flex; align-items: center; gap: 8px; }
+.bio-legend-line { width: 22px; height: 4px; border-radius: 2px; }
+.bio-legend-line--mel { background: #c4b5fd; }
+.bio-legend-line--cor { background: #fbbf24; }
+.bio-legend-box { width: 18px; height: 12px; border-radius: 3px; background: rgba(139, 92, 246, 0.25); border: 1px dashed rgba(196, 181, 253, 0.7); }
+
+.bio-chart { width: 100%; }
+.bio-svg { display: block; width: 100%; height: auto; overflow: visible; user-select: none; -webkit-user-select: none; }
+.bio-sleepwin { fill: rgba(139, 92, 246, 0.12); }
+.bio-sleeptext { font-size: 11px; font-weight: 600; fill: #c4b5fd; font-family: var(--font-sans); }
+.bio-grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
+.bio-axis { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1; }
+.bio-xlabel { font-size: 12px; fill: #94a3b8; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.bio-line { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.bio-line--mel { filter: drop-shadow(0 0 6px rgba(196, 181, 253, 0.55)); }
+.bio-line--cor { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5)); }
+.bio-peak { stroke: #0b1020; stroke-width: 2; }
+.bio-peaktext { font-size: 12px; font-weight: 600; font-family: var(--font-sans); paint-order: stroke; stroke: #0b1020; stroke-width: 3px; stroke-linejoin: round; }
+.bio-cursor-line { stroke: #f8fafc; stroke-width: 1.5; stroke-dasharray: 4 4; }
+.bio-bubble { fill: #f8fafc; }
+.bio-bubbletext { font-size: 12px; font-weight: 700; fill: #0b1020; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.bio-dot { stroke: #0b1020; stroke-width: 2.5; }
+.bio-clock { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.bio-teen-note { font-size: 0.9rem; line-height: 1.55; color: #ddd6fe; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 12px; padding: 12px 16px; margin: 16px 0 0; }
+.bio-science { margin-top: 24px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; background: rgba(15, 23, 42, 0.4); }
+.bio-science summary { cursor: pointer; padding: 14px 18px; min-height: 44px; font-weight: 600; color: #e2e8f0; }
+.bio-science ul { margin: 0; padding: 0 18px 16px 38px; color: #94a3b8; font-size: 0.85rem; line-height: 1.6; }
+.bio-science li + li { margin-top: 8px; }
+.bio-science a { color: #60a5fa; text-decoration: underline; text-underline-offset: 3px; }
+.bio-science a:hover { color: #93c5fd; }
+
+/* ==========================================================================
+   ДЫХАНИЕ ПЕРЕД СНОМ
+   ========================================================================== */
+.br-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+.br-stage { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 16px 22px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; }
+.br-visual { position: relative; width: min(100%, 320px); aspect-ratio: 1 / 1; }
+.br-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.br-ring-track { fill: none; stroke: rgba(255, 255, 255, 0.12); stroke-width: 3; }
+.br-ring-progress { fill: none; stroke: #93c5fd; stroke-width: 3; stroke-linecap: round; }
+.br-orb { position: absolute; inset: 9%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #bfdbfe, #3b82f6 55%, #1d4ed8); box-shadow: 0 0 60px rgba(59, 130, 246, 0.4); transform: scale(0.78); will-change: transform; }
+.br-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; pointer-events: none; color: #ffffff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45); }
+.br-phase { font-size: 1.5rem; font-weight: 700; }
+.br-count { font-size: 2.6rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; min-height: 1em; }
+.br-hint { min-height: 3em; margin: 0; max-width: 32ch; text-align: center; font-size: 0.95rem; line-height: 1.5; color: #cbd5e1; }
+.br-panel { display: flex; flex-direction: column; gap: 20px; }
+.br-group-title { display: block; margin-bottom: 8px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; }
+.br-seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.br-seg-btn { font: inherit; font-weight: 700; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 44px; padding: 10px 16px; color: #e2e8f0; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; cursor: pointer; line-height: 1.2; }
+.br-seg-btn small { font-weight: 400; font-size: 0.72rem; color: #94a3b8; }
+.br-seg-btn.is-active { background: rgba(59, 130, 246, 0.22); border-color: #60a5fa; color: #ffffff; }
+.br-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.br-btn { font: inherit; font-weight: 700; min-height: 48px; padding: 0 24px; border-radius: 12px; cursor: pointer; color: #e2e8f0; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.2); }
+.br-btn--primary { color: #ffffff; background: #2563eb; border-color: #2563eb; }
+.br-done { margin: 0; padding: 14px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.55; color: #d1fae5; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.35); }
+.br-science { margin-top: 24px; }
+.bio-mode-btn:focus-visible, .br-seg-btn:focus-visible, .br-btn:focus-visible, .bio-science summary:focus-visible, .sa-hit:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; }
+
+@media (max-width: 860px) {
+    .br-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+    .somnus-sleep-architecture__chart-container { padding: 14px 10px 16px; }
+    .bio-interactive-core { padding: 14px 10px; }
+    .somnus-sleep-architecture__tab { padding: 10px 16px; }
+    .br-btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .br-orb, .sa-seg { transition: none; }
+}
+
+/* Вкладки стадий переносятся на новую строку, а не прячутся за прокруткой */
+.somnus-sleep-architecture__tabs-wrapper { overflow: visible; }
+.somnus-sleep-architecture__tabs { display: flex; flex-wrap: wrap; }
+
+/* ==========================================================================
+   ФИНАЛЬНЫЙ СЛОЙ ДИЗАЙНА: логотип, ключевые факты, библиотека, спальня,
+   дневник, опрос, самооценка, подвал (единый стиль с новыми разделами)
+   ========================================================================== */
+
+:root {
+    --surface: rgba(15, 23, 42, 0.6);
+    --surface-border: rgba(255, 255, 255, 0.07);
+    --surface-radius: 20px;
+}
+
+/* --- Логотип --- */
+.somnus-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    opacity: 1;
+}
+
+.logo-moon { width: 24px; height: 24px; flex: none; filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.55)); }
+
+.logo-word {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+}
+
+.footer-brand .logo { font-size: 1.35rem; }
+.footer-brand .logo .somnus-logo-link { opacity: 1; }
+
+/* --- Заголовки разделов: единая «шапка» --- */
+.somnus-section__eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #60a5fa;
+    margin: 0 0 14px;
+}
+
+/* --- Ключевые факты --- */
+.kf-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.kf-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+    .kf-card:hover { transform: translateY(-3px); border-color: rgba(129, 140, 248, 0.4); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(99, 102, 241, 0.1); }
+}
+
+.kf-figure {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-height: 48px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, #c4b5fd, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.kf-figure small { font-size: 0.85rem; font-weight: 500; letter-spacing: 0; -webkit-text-fill-color: #94a3b8; color: #94a3b8; }
+
+.kf-figure--icon { color: #a5b4fc; background: none; -webkit-text-fill-color: initial; align-items: center; }
+.kf-figure--icon svg { width: 44px; height: 44px; }
+
+.kf-card h3 { font-size: 1.05rem; font-weight: 600; color: #fff; margin: 4px 0 0; letter-spacing: -0.01em; }
+.kf-card p { font-size: 0.9rem; line-height: 1.6; color: #a1a9b8; margin: 0; flex: 1; }
+
+.kf-src {
+    font-size: 0.78rem;
+    color: #7dacf7;
+    padding-top: 10px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    text-decoration: none;
+}
+
+.kf-src:hover { color: #bfdbfe; text-decoration: underline; }
+.kf-note { margin: 20px 0 0; font-size: 0.82rem; color: #7c8699; max-width: 720px; line-height: 1.55; }
+
+@media (max-width: 1024px) { .kf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .kf-grid { grid-template-columns: 1fr; } .kf-card { padding: 20px; } }
+
+/* --- Библиотека --- */
+.science-library { padding: 96px 0; }
+
+.library-controls { margin-top: 0; margin-bottom: 20px; }
+
+.library-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.library-count { margin: 0; font-size: 0.85rem; color: #7c8699; }
+
+.filter-btn.active { background: rgba(99, 102, 241, 0.22); border-color: #818cf8; box-shadow: 0 0 18px rgba(99, 102, 241, 0.18); }
+.filter-btn:focus-visible, .toggle-collapse-btn:focus-visible, .science-card:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+.search-wrapper input { background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.1); }
+
+.science-card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--surface-radius); }
+.science-card .card-title { font-size: 1.08rem; }
+.science-card .card-category { color: #93a8ff; }
+
+.science-modal .modal-content { background: rgba(13, 19, 36, 0.96); border-radius: 22px; }
+
+/* --- Спальня --- */
+.bedroom-visual-container { border-radius: var(--surface-radius); border: 1px solid var(--surface-border); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4); }
+
+.bedroom-info-panel {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    min-height: 180px;
+}
+
+.bedroom-info-panel .info-category { color: #60a5fa; font-weight: 600; letter-spacing: 0.12em; }
+.bedroom-info-panel h3 { font-size: 1.3rem; margin: 0 0 10px; color: #fff; }
+
+/* --- Дневник --- */
+.diary-header { text-align: left; }
+.diary-header h2 { font-weight: 700; }
+.diary-header p { color: #9ca3af; font-size: 1rem; }
+
+.glass-panel { background: var(--surface); border-color: var(--surface-border); border-radius: var(--surface-radius); }
+
+.diary-grid { gap: 20px; align-items: start; }
+
+.diary-submit-btn {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.55), rgba(59, 130, 246, 0.45));
+    border-color: rgba(147, 197, 253, 0.45);
+    color: #fff;
+}
+
+.diary-radio-row input[type="radio"]:checked + label { background: rgba(99, 102, 241, 0.28); border-color: #818cf8; color: #fff; }
+.diary-radio-row input[type="radio"]:focus-visible + label { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+/* --- Опрос --- */
+.peer-research-card, .peer-map { max-width: none; width: 100%; }
+
+.peer-research-card { padding: 28px; margin-bottom: 20px; }
+
+.method-facts {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.method-facts li {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.method-facts b { color: #fff; font-size: 1.05rem; font-weight: 600; }
+.method-facts span { color: #8b95a7; font-size: 0.82rem; line-height: 1.4; }
+
+.peer-map { padding: 28px; }
+.peer-map h3 { font-size: 1.25rem; font-weight: 600; color: #fff; margin: 0 0 6px; }
+.peer-map-sub { margin: 0 0 20px; color: #8b95a7; font-size: 0.9rem; line-height: 1.55; max-width: 720px; }
+
+.peer-table { display: flex; flex-direction: column; border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 14px; overflow: hidden; }
+
+.peer-row {
+    display: grid;
+    grid-template-columns: 1.1fr 2.2fr 0.8fr 1fr;
+    gap: 16px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #b6bdcb;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    align-items: start;
+}
+
+.peer-row:first-child { border-top: none; }
+.peer-row b { color: #fff; font-weight: 600; }
+.peer-row--head { background: rgba(255, 255, 255, 0.04); color: #7c8699; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; }
+.peer-pending { color: #7c8699; font-style: italic; }
+.peer-caveat { margin: 16px 0 0; font-size: 0.8rem; color: #7c8699; line-height: 1.55; }
+
+@media (max-width: 720px) {
+    .method-facts { grid-template-columns: 1fr; }
+    .peer-research-card, .peer-map { padding: 20px; }
+    .peer-row--head { display: none; }
+    .peer-row { grid-template-columns: 1fr; gap: 6px; padding: 16px; }
+    .peer-row [data-label]::before { content: attr(data-label) ": "; color: #6b7587; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .peer-row [data-label="Тема"]::before { display: none; }
+}
+
+/* --- Самооценка --- */
+.self-check-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.self-check-layout .self-check-card, .self-check-layout .self-check-result { max-width: none; }
+
+.self-check-aside { padding: 26px; }
+.self-check-aside h3 { font-size: 1.1rem; margin: 0 0 16px; color: #fff; }
+.self-check-aside ul { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.self-check-aside li { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 2px solid #6366f1; }
+.self-check-aside b { color: #fff; font-weight: 600; font-size: 0.95rem; }
+.self-check-aside li span { color: #8b95a7; font-size: 0.85rem; }
+.self-check-aside p { margin: 0; color: #8b95a7; font-size: 0.85rem; line-height: 1.55; }
+
+@media (max-width: 900px) { .self-check-layout { grid-template-columns: 1fr; } }
+
+/* --- Подвал --- */
+.site-footer { margin-top: 32px; border-top: 1px solid rgba(255, 255, 255, 0.07); }
+.footer-desc { max-width: 380px; line-height: 1.6; }
+.footer-links { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 8px; align-content: start; }
+.footer-links .footer-title { grid-column: 1 / -1; margin-bottom: 4px; }
+.footer-link { opacity: 1; }
+.footer-bottom { gap: 12px; flex-wrap: wrap; }
+.footer-credit { color: #7c8699; }
+
+@media (max-width: 560px) { .footer-links { grid-template-columns: 1fr; } }
+
+.footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); }
+.footer-link { white-space: nowrap; }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* Дневник и тач-цели на узких экранах */
+.diary-grid > *, .diary-dashboard > * { min-width: 0; }
+.diary-input-block input[type="time"], .diary-input-block select, .diary-input-block textarea { min-width: 0; width: 100%; box-sizing: border-box; }
+.diary-text-btn { min-height: 40px; padding: 0 8px; cursor: pointer; }
+.somnus-logo-link { min-height: 44px; }
+
+@media (max-width: 480px) {
+    .glass-panel { padding: 1.25rem; }
+    .diary-time-group { gap: 0.75rem; }
+    .diary-input-block input[type="time"] { padding: 0.7rem 0.55rem; font-size: 0.95rem; }
+    .diary-radio-row { gap: 0.4rem; }
+}
+
+/* survey results */
+.peer-result{color:#e2e8f0;font-size:.9rem;line-height:1.45}
+.survey-results{margin-top:28px}
+.survey-results h3{font-size:1.25rem;color:#fff;margin:0 0 16px;font-weight:600}
+.survey-results h3 small{color:#8b95a7;font-weight:400;font-size:.85rem;margin-left:8px}
+.rg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:16px}
+.rg{padding:18px 20px;min-width:0}
+.rg h4{margin:0 0 12px;font-size:.95rem;color:#cbd5e1;font-weight:600}
+.rb{display:grid;grid-template-columns:minmax(90px,40%) 1fr auto;gap:10px;align-items:center;margin:7px 0;font-size:.82rem;color:#b6c0d1}
+.rb-t{height:10px;background:rgba(148,163,184,.14);border-radius:6px;overflow:hidden}
+.rb-t i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:6px}
+.rb-t i.v{background:linear-gradient(90deg,#7c5cff,#a78bfa)}
+.rb-n{color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.survey-conclusions ul{margin:0 0 12px;padding-left:20px;color:#cbd5e1;line-height:1.6}
+.survey-conclusions li{margin:6px 0}
+@media(max-width:480px){.rg-grid{grid-template-columns:1fr}.rb{grid-template-columns:1fr auto}.rb-l{grid-column:1/-1}.rb-t{grid-column:1}}
+
+.project-aim{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding:24px 26px;margin-bottom:20px}
+.pa-col h3{margin:0 0 10px;font-size:1rem;color:#fff;font-weight:600}
+.pa-col p,.pa-col li{color:#b6c0d1;font-size:.9rem;line-height:1.55;margin:0 0 8px}
+.pa-col ul{margin:0;padding-left:18px}
+.pa-result{color:#e2e8f0!important}
+@media(max-width:900px){.project-aim{grid-template-columns:1fr;gap:18px}}
+
+.diary-history-item{flex-wrap:wrap}
+.history-note{flex:0 0 100%;order:5;color:#9aa6ba;font-size:.82rem;line-height:1.45;margin-top:4px;overflow-wrap:anywhere}
+.diary-storage-hint{margin:8px 0 0;color:#7c8699;font-size:.78rem;line-height:1.45}
